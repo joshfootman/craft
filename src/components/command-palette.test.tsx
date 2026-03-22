@@ -39,7 +39,8 @@ describe("CommandPaletteContent", () => {
 
     render(<CommandPaletteContent studies={studies} />);
 
-    expect(screen.getByText("motion · spring")).toBeInTheDocument();
+    expect(screen.getByText("motion")).toBeInTheDocument();
+    expect(screen.getByText("spring")).toBeInTheDocument();
   });
 
   it("shows empty state when no studies match", () => {
