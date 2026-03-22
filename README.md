@@ -1,43 +1,41 @@
-# Astro Starter Kit: Minimal
+# Craft
+
+A personal sandbox for studying motion, interaction design, and frontend craft. Each study isolates a single technique — an animation pattern, a UI interaction, a visual effect — and implements it from scratch.
+
+Built with Astro, React, Tailwind CSS, Motion, and Three.js.
+
+## Getting Started
+
+Requires Node >= 22.12.0 and pnpm.
 
 ```sh
-pnpm create astro@latest -- --template minimal
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The dev server runs at `localhost:4321`.
 
-## 🚀 Project Structure
+## Scripts
 
-Inside of your Astro project, you'll see the following folders and files:
+| Command | What it does |
+| :--- | :--- |
+| `pnpm dev` | Start the dev server |
+| `pnpm build` | Build for production |
+| `pnpm test:run` | Run unit tests |
+| `pnpm test:browser:run` | Run browser tests |
+| `pnpm lint` | Lint with oxlint |
+| `pnpm fmt` | Format with oxfmt |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Stack
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- [Astro](https://astro.build) — static site framework
+- [React](https://react.dev) — interactive components
+- [Tailwind CSS](https://tailwindcss.com) — styling
+- [Motion](https://motion.dev) — animation
+- [Three.js](https://threejs.org) / [React Three Fiber](https://r3f.docs.pmnd.rs) — 3D graphics
+- [Vitest](https://vitest.dev) — testing
+- [shadcn/ui](https://ui.shadcn.com) — component primitives
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## License
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+This is a personal project. No license is provided.
