@@ -6,6 +6,9 @@ import { resolve } from "node:path";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  define: {
+    PROJECT_ROOT: JSON.stringify(process.cwd()),
+  },
   resolve: {
     alias: {
       "~": resolve(import.meta.dirname, "src"),

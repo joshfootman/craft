@@ -44,6 +44,22 @@ describe("StudyContent", () => {
     expect(screen.getByText("spring")).toBeInTheDocument();
   });
 
+  it("title links to the component file in vscode", () => {
+    const meta = make_meta({ id: "001-placeholder", title: "Placeholder" });
+
+    render_study(meta);
+
+    const link = screen.getByRole("link", { name: "Placeholder" });
+    expect(link).toHaveAttribute(
+      "href",
+      expect.stringContaining("vscode://file/"),
+    );
+    expect(link).toHaveAttribute(
+      "href",
+      expect.stringContaining("src/pages/studies/001-placeholder/_component.tsx"),
+    );
+  });
+
   it("defaults to desktop device when viewport is desktop", () => {
     const meta = make_meta({ viewport: "desktop" });
 
@@ -89,7 +105,7 @@ describe("StudyContent", () => {
     );
   });
 
-  it("frame width is always a pixel value, never a percentage", () => {
+  it("renders full width before container is measured for desktop viewport", () => {
     const meta = make_meta({ viewport: "desktop" });
 
     const { container } = render(
@@ -99,7 +115,20 @@ describe("StudyContent", () => {
     );
 
     const frame = container.querySelector("[data-testid='study']")!.parentElement!.parentElement!;
-    expect(frame.style.width).toMatch(/^\d+px$/);
+    expect(frame.style.width).toBe("100%");
+  });
+
+  it("renders pixel width for mobile viewport before container is measured", () => {
+    const meta = make_meta({ viewport: "mobile" });
+
+    const { container } = render(
+      <SidebarProvider>
+        <StudyContent meta={meta}><div data-testid="study">study</div></StudyContent>
+      </SidebarProvider>,
+    );
+
+    const frame = container.querySelector("[data-testid='study']")!.parentElement!.parentElement!;
+    expect(frame.style.width).toBe("390px");
   });
 
   it("no preset is active when frame width does not match any preset", () => {
