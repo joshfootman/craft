@@ -9,18 +9,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "~/components/ui/sidebar";
-import { SearchIcon } from "lucide-react";
-import type { Meta } from "~/types/study";
+} from "~/components/ui/sidebar"
+import { SearchIcon } from "lucide-react"
+import { Kbd } from "~/components/ui/kbd"
+import type { Meta } from "~/types/study"
+import { Badge } from "./ui/badge"
 
 function group_by_category(studies: Meta[]): Map<string, Meta[]> {
-  const groups = new Map<string, Meta[]>();
+  const groups = new Map<string, Meta[]>()
   for (const study of studies) {
-    const existing = groups.get(study.category) ?? [];
-    existing.push(study);
-    groups.set(study.category, existing);
+    const existing = groups.get(study.category) ?? []
+    existing.push(study)
+    groups.set(study.category, existing)
   }
-  return groups;
+  return groups
 }
 
 export function AppSidebar({
@@ -28,11 +30,11 @@ export function AppSidebar({
   active_study_id,
   on_search_click,
 }: {
-  studies: Meta[];
-  active_study_id: string;
-  on_search_click?: () => void;
+  studies: Meta[]
+  active_study_id: string
+  on_search_click?: () => void
 }) {
-  const grouped = group_by_category(studies);
+  const grouped = group_by_category(studies)
 
   return (
     <Sidebar>
@@ -48,7 +50,7 @@ export function AppSidebar({
         >
           <SearchIcon className="size-4" />
           <span>Search...</span>
-          <kbd className="ml-auto text-xs text-muted-foreground">⌘K</kbd>
+          <Kbd className="ml-auto">⌘K</Kbd>
         </button>
       </SidebarHeader>
       <SidebarContent>
@@ -66,11 +68,11 @@ export function AppSidebar({
                     >
                       <div className="flex min-w-0 flex-col gap-0.5">
                         <span className="truncate text-sm font-medium">{study.title}</span>
-                        <span className="truncate text-xs text-muted-foreground">
-                          {study.description}
-                        </span>
-                        <span className="truncate text-xs text-muted-foreground/60">
-                          {study.tags.join(" · ")}
+                        <span className="truncate text-xs text-muted-foreground">{study.description}</span>
+                        <span className="truncate">
+                          {study.tags.map((tag) => (
+                            <Badge variant="outline">{tag}</Badge>
+                          ))}
                         </span>
                       </div>
                     </SidebarMenuButton>
@@ -83,5 +85,5 @@ export function AppSidebar({
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  );
+  )
 }
