@@ -1,8 +1,8 @@
-# study — Scope & Requirements
+# Craft — Scope & Requirements
 
 ## Overview
 
-A personal interaction laboratory. A collection of isolated UI studies, each one a deliberate exploration of motion, design, or 3D. Built to develop craft, document growth, and serve as a living portfolio for design engineering roles.
+A personal interaction laboratory. A collection of isolated UI studies, each one a deliberate exploration of motion, design, or 3D. Built to develop craft, document growth, and eventually serve as a living portfolio for design engineering roles.
 
 Not a product. Not an app. A series of moments.
 
@@ -13,8 +13,9 @@ Not a product. Not an app. A series of moments.
 - **Framework**: Astro (latest)
 - **Component layer**: React (via `@astrojs/react`)
 - **Styling**: Tailwind CSS (latest)
-- **Animation**: Motion.dev
-- **3D**: Three.js / React Three Fiber
+- **Shell UI**: shadcn (sidebar, command palette, header) / Base UI
+- **Animation**: Motion (motion.dev)
+- **3D**: Three.js / React Three Fiber (`@react-three/fiber`, `@react-three/drei`)
 - **Language**: TypeScript throughout
 
 ---
@@ -45,7 +46,7 @@ Every study exports a typed metadata object from `meta.ts`. This is the single s
 
 ```ts
 // src/studies/001-spring-list/meta.ts
-import type { Meta } from "../../types/study";
+import type { Meta } from "~/types/study";
 
 export const meta = {
   id: "001-spring-list",
@@ -62,7 +63,7 @@ export const meta = {
 } satisfies Meta;
 ```
 
-`status: 'draft'` studies are visible in development, hidden in production.
+`status` is included in the metadata type for future use (draft/published filtering when the site goes public) but is not used for filtering in the initial build. All studies are visible.
 
 ### Glob-based sidebar population
 
@@ -74,7 +75,7 @@ Each `index.astro` follows the same minimal pattern:
 
 ```astro
 ---
-import StudyShell from '../../components/StudyShell.astro'
+import StudyShell from '~/components/StudyShell.astro'
 import { meta } from './meta.ts'
 import SpringList from './SpringList.tsx'
 ---
@@ -100,7 +101,8 @@ Two-panel layout. Sidebar left, study content right. The sidebar is the only per
 
 ### Sidebar
 
-- Lists all published studies, sorted by date (newest first)
+- Built using shadcn sidebar component (responsive out of the box)
+- Lists all studies, sorted by date (newest first)
 - Each item shows: title, short description, and tags (truncated — tags are rendered inline and clipped based on available sidebar width, no fixed count limit)
 - Studies are grouped by `category`, each group rendered under a simple section header
 - Active study is visually highlighted
@@ -114,21 +116,21 @@ When a study is active, the right panel is split into two vertical regions:
 1. **Header bar** — a minimal fixed-height bar at the top of the content area showing the study title and all tags in full. This is the only persistent chrome in the content area. It should be slim and typographically simple — not a page header, just a label strip.
 2. **Study area** — fills the remaining height below the header bar. The study component renders here with no imposed padding. Studies manage their own internal spacing and layout.
 
-A small fixed button sits in the bottom-right corner of the study area. It is only rendered if the study has one or more `inspiration` URLs. Clicking it opens a modal listing the inspiration sources as linked URLs — similar to the acknowledgements overlay in Google Maps. The button should be minimal and unobtrusive, it should not compete with the study itself.
+A small fixed button sits in the bottom-right corner of the study area. It is only rendered if the study has one or more `inspiration` URLs. Clicking it opens a popover listing the inspiration sources as linked URLs — similar to the acknowledgements overlay in Google Maps. The button should be minimal and unobtrusive, it should not compete with the study itself. This serves as citation — tracking what inspired or was referenced when building each study.
 
 ### Viewport framing
 
-The shell reads `viewport` from the study meta and adjusts the content area accordingly:
+The shell reads `viewport` from the study meta and displays a responsive preview toolbar (inspired by the shadcn blocks preview — desktop/tablet/mobile toggle buttons). The content area resizes to match the selected device width. Device widths are abstracted into constants for easy tweaking.
 
-- `desktop` — content area fills all available space, no constraints
-- `mobile` — content area is constrained to a 390px wide centered frame with a phone-like aspect ratio, allowing the study to be experienced as intended on desktop
-- `any` — content area fills all available space, no constraints
+- `desktop` — default view, content area fills all available space
+- `mobile` — default view starts at mobile width, user can toggle between sizes
+- `any` — default view fills all available space, user can toggle between sizes
 
-The `data-theme` attribute is applied to the content area wrapper based on the `theme` field, so Tailwind's dark mode variant and any shell chrome (e.g. the overlay) can adapt.
+The `data-theme` attribute is applied to the content area wrapper based on the `theme` field, so Tailwind's dark mode variant and any shell chrome (e.g. the popover) can adapt.
 
 ### Homepage
 
-Deferred — not in scope for initial build. The `/` route can redirect to the first published study for now.
+Deferred — not in scope for initial build. The `/` route can redirect to the first study for now.
 
 ---
 
@@ -161,6 +163,7 @@ Tags appear in the sidebar under each study item and are also searchable via the
 
 ### Implementation notes
 
+- Use shadcn's command component (built on cmdk) — replaceable with a custom implementation later
 - The palette should be built as a React component rendered at the root layout level
 - Study list for search is passed in at build time via the same glob that populates the sidebar — no runtime fetch
 - Keyboard navigation through results (arrow keys + enter) is required
@@ -230,7 +233,7 @@ export type Meta = {
 
 ## Placeholder Study
 
-Scaffold one complete placeholder study as part of the initial build — `001-placeholder` — so the full pipeline can be verified end to end: glob picks it up, sidebar renders it, route resolves, shell applies theme and viewport correctly. The component itself can be a single centred text element. It should have `status: 'published'` so it appears in both dev and prod.
+Scaffold one complete placeholder study as part of the initial build — `001-placeholder` — so the full pipeline can be verified end to end: glob picks it up, sidebar renders it, route resolves, shell applies theme and viewport correctly. The component itself can be a single centred text element.
 
 ---
 
@@ -238,9 +241,8 @@ Scaffold one complete placeholder study as part of the initial build — `001-pl
 
 - Adding a new study requires creating one folder with three files (`index.astro`, `meta.ts`, `YourComponent.tsx`) and nothing else
 - TypeScript errors on malformed metadata (enforced via the `Meta` type)
-- Draft studies visible in dev, invisible in prod — no extra config needed
 - Hot reload works on study components as expected via Vite
-- `@/` path alias configured in `tsconfig.json` pointing to `src/` — use this for all internal imports
+- `~/` path alias configured in `tsconfig.json` pointing to `src/` — use this for all internal imports
 
 ---
 
@@ -250,5 +252,6 @@ Scaffold one complete placeholder study as part of the initial build — `001-pl
 - Comments or social features
 - Auth of any kind
 - Any backend
-- Mobile layout (studies are desktop-first, sidebar may simply be hidden on small screens)
+- Draft/published filtering (all studies visible until deployment is needed)
+- Deployment (local development only for now)
 - Dark/light toggle
