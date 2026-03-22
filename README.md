@@ -17,14 +17,14 @@ The dev server runs at `localhost:4321`.
 
 ## Scripts
 
-| Command | What it does |
-| :--- | :--- |
-| `pnpm dev` | Start the dev server |
-| `pnpm build` | Build for production |
-| `pnpm test:run` | Run unit tests |
-| `pnpm test:browser:run` | Run browser tests |
-| `pnpm lint` | Lint with oxlint |
-| `pnpm fmt` | Format with oxfmt |
+| Command                 | What it does         |
+| :---------------------- | :------------------- |
+| `pnpm dev`              | Start the dev server |
+| `pnpm build`            | Build for production |
+| `pnpm test:run`         | Run unit tests       |
+| `pnpm test:browser:run` | Run browser tests    |
+| `pnpm lint`             | Lint with oxlint     |
+| `pnpm fmt`              | Format with oxfmt    |
 
 ## Stack
 
