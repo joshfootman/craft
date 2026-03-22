@@ -11,7 +11,9 @@ import {
   SidebarRail,
 } from "~/components/ui/sidebar";
 import { SearchIcon } from "lucide-react";
+import { Kbd } from "~/components/ui/kbd";
 import type { Meta } from "~/types/study";
+import { Badge } from "./ui/badge";
 
 function group_by_category(studies: Meta[]): Map<string, Meta[]> {
   const groups = new Map<string, Meta[]>();
@@ -48,7 +50,7 @@ export function AppSidebar({
         >
           <SearchIcon className="size-4" />
           <span>Search...</span>
-          <kbd className="ml-auto text-xs text-muted-foreground">⌘K</kbd>
+          <Kbd className="ml-auto">⌘K</Kbd>
         </button>
       </SidebarHeader>
       <SidebarContent>
@@ -69,8 +71,10 @@ export function AppSidebar({
                         <span className="truncate text-xs text-muted-foreground">
                           {study.description}
                         </span>
-                        <span className="truncate text-xs text-muted-foreground/60">
-                          {study.tags.join(" · ")}
+                        <span className="truncate">
+                          {study.tags.map((tag) => (
+                            <Badge variant="outline">{tag}</Badge>
+                          ))}
                         </span>
                       </div>
                     </SidebarMenuButton>

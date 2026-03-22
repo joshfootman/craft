@@ -8,6 +8,7 @@ import {
   CommandList,
 } from "~/components/ui/command";
 import type { Meta } from "~/types/study";
+import { Badge } from "./ui/badge";
 
 export function CommandPaletteContent({
   studies,
@@ -30,9 +31,9 @@ export function CommandPaletteContent({
             >
               <div className="flex flex-col gap-0.5">
                 <span className="text-sm">{study.title}</span>
-                {study.tags.length > 0 && (
-                  <span className="text-xs text-muted-foreground">{study.tags.join(" · ")}</span>
-                )}
+                {study.tags.length > 0
+                  ? study.tags.map((tag) => <Badge variant="outline">{tag}</Badge>)
+                  : null}
               </div>
             </CommandItem>
           ))}

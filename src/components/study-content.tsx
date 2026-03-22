@@ -6,6 +6,7 @@ import { Separator } from "~/components/ui/separator";
 import { SidebarTrigger } from "~/components/ui/sidebar";
 import { InspirationPopover } from "~/components/inspiration-popover";
 import { DEVICE_WIDTHS, type Device } from "~/lib/constants";
+import { Badge } from "~/components/ui/badge";
 import type { Meta, Viewport } from "~/types/study";
 
 const DEVICE_ICONS: Record<Device, React.ComponentType<{ className?: string }>> = {
@@ -120,9 +121,9 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
           <span className="text-sm font-medium">{meta.title}</span>
         )}
         {meta.tags.map((tag) => (
-          <span key={tag} className="text-xs text-muted-foreground">
+          <Badge key={tag} variant="secondary">
             {tag}
-          </span>
+          </Badge>
         ))}
         <div className="ml-auto flex items-center gap-1">
           {DEVICE_LIST.map((device) => {
