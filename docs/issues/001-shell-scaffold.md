@@ -92,11 +92,13 @@ Build the complete shell infrastructure so that dropping a new folder under `src
 ### Modules to test
 
 **Vitest (unit/component):**
+
 - **Study data loader** — sorts by date descending, handles empty input, extracts metadata correctly from glob result shape.
 - **Command palette** — search filtering returns correct results for title, tags, and techniques queries. Empty state when no matches.
 - **Meta type** — verify `satisfies Meta` catches malformed objects (this is a compile-time check, but a type-level test file can document the contract).
 
 **Vitest Browser (Playwright):**
+
 - **Viewport frame** — toggling between desktop/tablet/mobile actually resizes the content area to the correct widths. Default selection matches `meta.viewport`.
 - **Sidebar keyboard shortcut** — `cmd+b` toggles sidebar visibility.
 - **Command palette keyboard shortcut** — `cmd+k` opens the palette, `esc` closes it.

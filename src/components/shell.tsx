@@ -38,15 +38,9 @@ export function Shell({
         on_search_click={() => set_command_open(true)}
       />
       <SidebarInset>
-        <StudyContent meta={meta}>
-          {children}
-        </StudyContent>
+        <StudyContent meta={meta}>{children}</StudyContent>
       </SidebarInset>
-      <CommandPalette
-        studies={studies}
-        open={command_open}
-        on_open_change={set_command_open}
-      />
+      <CommandPalette studies={studies} open={command_open} on_open_change={set_command_open} />
     </SidebarProvider>
   );
 }

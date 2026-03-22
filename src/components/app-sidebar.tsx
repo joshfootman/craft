@@ -65,9 +65,7 @@ export function AppSidebar({
                       className="h-auto py-2"
                     >
                       <div className="flex min-w-0 flex-col gap-0.5">
-                        <span className="truncate text-sm font-medium">
-                          {study.title}
-                        </span>
+                        <span className="truncate text-sm font-medium">{study.title}</span>
                         <span className="truncate text-xs text-muted-foreground">
                           {study.description}
                         </span>

@@ -35,9 +35,7 @@ describe("CommandPaletteContent", () => {
   });
 
   it("renders tags for studies", () => {
-    const studies = [
-      make_meta({ id: "a", title: "Spring List", tags: ["motion", "spring"] }),
-    ];
+    const studies = [make_meta({ id: "a", title: "Spring List", tags: ["motion", "spring"] })];
 
     render(<CommandPaletteContent studies={studies} />);
 

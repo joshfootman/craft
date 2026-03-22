@@ -2,6 +2,6 @@ export const DEVICE_WIDTHS = {
   desktop: "100%",
   tablet: 768,
   mobile: 390,
-} as const
+} as const;
 
-export type Device = keyof typeof DEVICE_WIDTHS
+export type Device = keyof typeof DEVICE_WIDTHS;

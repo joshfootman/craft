@@ -20,16 +20,10 @@ function make_meta(overrides: Partial<Meta> = {}): Meta {
   };
 }
 
-function render_sidebar(props: {
-  studies: Meta[];
-  active_study_id: string;
-}) {
+function render_sidebar(props: { studies: Meta[]; active_study_id: string }) {
   return render(
     <SidebarProvider>
-      <AppSidebar
-        studies={props.studies}
-        active_study_id={props.active_study_id}
-      />
+      <AppSidebar studies={props.studies} active_study_id={props.active_study_id} />
     </SidebarProvider>,
   );
 }
@@ -39,9 +33,7 @@ describe("AppSidebar", () => {
     render_sidebar({ studies: [], active_study_id: "" });
 
     expect(screen.getByText("Craft")).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /search/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /search/i })).toBeInTheDocument();
   });
 
   it("marks the active study", () => {

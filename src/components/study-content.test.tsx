@@ -50,10 +50,7 @@ describe("StudyContent", () => {
     render_study(meta);
 
     const link = screen.getByRole("link", { name: "Placeholder" });
-    expect(link).toHaveAttribute(
-      "href",
-      expect.stringContaining("vscode://file/"),
-    );
+    expect(link).toHaveAttribute("href", expect.stringContaining("vscode://file/"));
     expect(link).toHaveAttribute(
       "href",
       expect.stringContaining("src/pages/studies/001-placeholder/_component.tsx"),
@@ -65,14 +62,8 @@ describe("StudyContent", () => {
 
     render_study(meta);
 
-    expect(screen.getByRole("button", { name: "desktop" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute(
-      "aria-pressed",
-      "false",
-    );
+    expect(screen.getByRole("button", { name: "desktop" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "false");
   });
 
   it("applies data-theme from meta", () => {
@@ -80,14 +71,13 @@ describe("StudyContent", () => {
 
     const { container } = render(
       <SidebarProvider>
-        <StudyContent meta={meta}><div>study</div></StudyContent>
+        <StudyContent meta={meta}>
+          <div>study</div>
+        </StudyContent>
       </SidebarProvider>,
     );
 
-    expect(container.querySelector("[data-theme]")).toHaveAttribute(
-      "data-theme",
-      "dark",
-    );
+    expect(container.querySelector("[data-theme]")).toHaveAttribute("data-theme", "dark");
   });
 
   it("defaults to mobile device when viewport is mobile", () => {
@@ -95,10 +85,7 @@ describe("StudyContent", () => {
 
     render_study(meta);
 
-    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "desktop" })).toHaveAttribute(
       "aria-pressed",
       "false",
@@ -110,7 +97,9 @@ describe("StudyContent", () => {
 
     const { container } = render(
       <SidebarProvider>
-        <StudyContent meta={meta}><div data-testid="study">study</div></StudyContent>
+        <StudyContent meta={meta}>
+          <div data-testid="study">study</div>
+        </StudyContent>
       </SidebarProvider>,
     );
 
@@ -123,7 +112,9 @@ describe("StudyContent", () => {
 
     const { container } = render(
       <SidebarProvider>
-        <StudyContent meta={meta}><div data-testid="study">study</div></StudyContent>
+        <StudyContent meta={meta}>
+          <div data-testid="study">study</div>
+        </StudyContent>
       </SidebarProvider>,
     );
 
@@ -137,24 +128,15 @@ describe("StudyContent", () => {
     render_study(meta);
 
     // mobile starts active
-    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "true");
 
     // set to a custom width via the resize handle (simulate by setting an arbitrary width)
     // We test this through the drag handle in browser tests.
     // For now, verify that clicking tablet then the state is correct.
     fireEvent.click(screen.getByRole("button", { name: "tablet" }));
 
-    expect(screen.getByRole("button", { name: "tablet" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute(
-      "aria-pressed",
-      "false",
-    );
+    expect(screen.getByRole("button", { name: "tablet" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "false");
     expect(screen.getByRole("button", { name: "desktop" })).toHaveAttribute(
       "aria-pressed",
       "false",

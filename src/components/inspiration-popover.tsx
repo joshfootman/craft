@@ -1,19 +1,11 @@
 import { BookOpenIcon, ExternalLinkIcon } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 
-export function InspirationPopover({
-  inspiration,
-}: {
-  inspiration?: string[];
-}) {
+export function InspirationPopover({ inspiration }: { inspiration?: string[] }) {
   if (!inspiration || inspiration.length === 0) return null;
 
   return (
-    <div className="absolute bottom-4 right-4 z-10">
+    <div className="absolute right-4 bottom-4 z-10">
       <Popover>
         <PopoverTrigger asChild>
           <button
