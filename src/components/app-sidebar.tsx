@@ -1,7 +1,3 @@
-import * as React from "react"
-
-import { SearchForm } from "~/components/search-form"
-import { VersionSwitcher } from "~/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -13,162 +9,72 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "~/components/ui/sidebar"
+} from "~/components/ui/sidebar";
+import { SearchIcon } from "lucide-react";
+import type { Meta } from "~/types/study";
 
-// This is sample data.
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Build Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-  ],
+function group_by_category(studies: Meta[]): Map<string, Meta[]> {
+  const groups = new Map<string, Meta[]>();
+  for (const study of studies) {
+    const existing = groups.get(study.category) ?? [];
+    existing.push(study);
+    groups.set(study.category, existing);
+  }
+  return groups;
 }
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+export function AppSidebar({
+  studies,
+  active_study_id,
+  on_search_click,
+}: {
+  studies: Meta[];
+  active_study_id: string;
+  on_search_click?: () => void;
+}) {
+  const grouped = group_by_category(studies);
+
   return (
-    <Sidebar {...props}>
+    <Sidebar>
       <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
-        <SearchForm />
+        <div className="px-2 py-1">
+          <span className="text-sm font-semibold tracking-tight">Craft</span>
+        </div>
+        <button
+          type="button"
+          onClick={on_search_click}
+          className="flex h-8 w-full items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground shadow-none ring-1 ring-border"
+          aria-label="Search studies"
+        >
+          <SearchIcon className="size-4" />
+          <span>Search...</span>
+          <kbd className="ml-auto text-xs text-muted-foreground">⌘K</kbd>
+        </button>
       </SidebarHeader>
       <SidebarContent>
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+        {[...grouped.entries()].map(([category, category_studies]) => (
+          <SidebarGroup key={category}>
+            <SidebarGroupLabel>{category}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                {category_studies.map((study) => (
+                  <SidebarMenuItem key={study.id}>
                     <SidebarMenuButton
-                      isActive={item.isActive}
-                      render={<a href={item.url} />}
+                      isActive={study.id === active_study_id}
+                      render={<a href={`/studies/${study.id}`} />}
+                      className="h-auto py-2"
                     >
-                      {item.title}
+                      <div className="flex min-w-0 flex-col gap-0.5">
+                        <span className="truncate text-sm font-medium">
+                          {study.title}
+                        </span>
+                        <span className="truncate text-xs text-muted-foreground">
+                          {study.description}
+                        </span>
+                        <span className="truncate text-xs text-muted-foreground/60">
+                          {study.tags.join(" · ")}
+                        </span>
+                      </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -179,5 +85,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
