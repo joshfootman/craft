@@ -1,17 +1,13 @@
 ---
+import { load_studies } from "~/lib/studies";
+import type { Meta } from "~/types/study";
 
+const glob_result = import.meta.glob<{ meta: Meta }>(
+  "/src/pages/studies/**/_meta.ts",
+  { eager: true },
+);
+const studies = load_studies(glob_result);
+const first = studies[0];
+
+return Astro.redirect(first ? `/studies/${first.id}` : "/404");
 ---
-
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Craft</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>

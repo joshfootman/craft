@@ -1,0 +1,40 @@
+---
+import "~/styles/global.css";
+import { load_studies } from "~/lib/studies";
+import { Shell } from "~/components/shell";
+import type { Meta } from "~/types/study";
+
+interface Props {
+  meta: Meta;
+}
+
+const { meta } = Astro.props;
+
+const glob_result = import.meta.glob<{ meta: Meta }>(
+  "/src/pages/studies/**/_meta.ts",
+  { eager: true },
+);
+const studies = load_studies(glob_result);
+const active_study_id = meta.id;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{meta.title} — Craft</title>
+  </head>
+  <body>
+    <Shell
+      studies={studies}
+      active_study_id={active_study_id}
+      meta={meta}
+      client:load
+    >
+      <slot />
+    </Shell>
+  </body>
+</html>
