@@ -1,5 +1,6 @@
 import { BookOpenIcon, ExternalLinkIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
+import { Button } from "./ui/button";
 
 export function InspirationPopover({ inspiration }: { inspiration?: string[] }) {
   if (!inspiration || inspiration.length === 0) return null;
@@ -7,15 +8,13 @@ export function InspirationPopover({ inspiration }: { inspiration?: string[] }) 
   return (
     <div className="absolute right-4 bottom-4 z-10">
       <Popover>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            aria-label="Inspiration sources"
-            className="rounded-md border bg-background p-2 text-muted-foreground shadow-sm hover:text-foreground"
-          >
-            <BookOpenIcon className="size-4" />
-          </button>
-        </PopoverTrigger>
+        <PopoverTrigger
+          render={
+            <Button aria-label="Inspiration sources" size="icon" variant="outline">
+              <BookOpenIcon className="size-4" />
+            </Button>
+          }
+        ></PopoverTrigger>
         <PopoverContent align="end" className="w-80">
           <div className="flex flex-col gap-2">
             <span className="text-sm font-medium">Inspiration</span>
