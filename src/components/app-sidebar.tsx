@@ -55,8 +55,20 @@ export function AppSidebar({
                   >
                     <div className="flex min-w-0 flex-col gap-0.5">
                       <span className="line-clamp-2 text-sm font-medium">{study.title}</span>
+                      <span className="truncate text-xs text-muted-foreground">
+                        {study.description}
+                      </span>
+                      {study.tags.length > 0 && (
+                        <span className="flex flex-wrap gap-1">
+                          {study.tags.map((tag) => (
+                            <Badge key={tag} variant="outline">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </span>
+                      )}
                       {study.category !== "General" && (
-                        <Badge variant="outline" className="w-fit">
+                        <Badge variant="secondary" className="w-fit">
                           {study.category}
                         </Badge>
                       )}
