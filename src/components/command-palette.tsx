@@ -6,16 +6,16 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "~/components/ui/command"
-import type { Meta } from "~/types/study"
-import { Badge } from "./ui/badge"
+} from "~/components/ui/command";
+import type { Meta } from "~/types/study";
+import { Badge } from "./ui/badge";
 
 export function CommandPaletteContent({
   studies,
   on_select,
 }: {
-  studies: Meta[]
-  on_select?: (study_id: string) => void
+  studies: Meta[];
+  on_select?: (study_id: string) => void;
 }) {
   return (
     <Command>
@@ -46,7 +46,7 @@ export function CommandPaletteContent({
         </CommandGroup>
       </CommandList>
     </Command>
-  )
+  );
 }
 
 export function CommandPalette({
@@ -54,13 +54,13 @@ export function CommandPalette({
   open,
   on_open_change,
 }: {
-  studies: Meta[]
-  open: boolean
-  on_open_change: (open: boolean) => void
+  studies: Meta[];
+  open: boolean;
+  on_open_change: (open: boolean) => void;
 }) {
   function handle_select(study_id: string) {
-    on_open_change(false)
-    window.location.href = `/studies/${study_id}`
+    on_open_change(false);
+    window.location.href = `/studies/${study_id}`;
   }
 
   return (
@@ -72,5 +72,5 @@ export function CommandPalette({
     >
       <CommandPaletteContent studies={studies} on_select={handle_select} />
     </CommandDialog>
-  )
+  );
 }

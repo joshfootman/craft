@@ -1,12 +1,12 @@
-import { group_studies } from "~/lib/studies"
-import { get_pattern } from "~/lib/patterns"
-import { PatternBg } from "~/components/pattern-bg"
-import { Card, CardContent } from "~/components/ui/card"
-import { Badge } from "~/components/ui/badge"
-import type { Meta } from "~/types/study"
+import { group_studies } from "~/lib/studies";
+import { get_pattern } from "~/lib/patterns";
+import { PatternBg } from "~/components/pattern-bg";
+import { Card, CardContent } from "~/components/ui/card";
+import { Badge } from "~/components/ui/badge";
+import type { Meta } from "~/types/study";
 
 function StudyCard({ study }: { study: Meta }) {
-  const pattern = get_pattern(study.id)
+  const pattern = get_pattern(study.id);
 
   return (
     <Card className="relative flex h-64 flex-col gap-0 overflow-hidden py-0 transition-shadow has-focus-visible:ring-2 has-focus-visible:ring-ring/50 has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-background">
@@ -30,7 +30,7 @@ function StudyCard({ study }: { study: Meta }) {
         </a>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function StudyGroup({ title, studies }: { title: string; studies: Meta[] }) {
@@ -43,11 +43,11 @@ function StudyGroup({ title, studies }: { title: string; studies: Meta[] }) {
         ))}
       </div>
     </section>
-  )
+  );
 }
 
 export function Hub({ studies }: { studies: Meta[] }) {
-  const { breakdowns, standalone } = group_studies(studies)
+  const { breakdowns, standalone } = group_studies(studies);
 
   return (
     <div className="flex flex-col gap-10 p-8">
@@ -57,5 +57,5 @@ export function Hub({ studies }: { studies: Meta[] }) {
       ))}
       {standalone.length > 0 && <StudyGroup title="General" studies={standalone} />}
     </div>
-  )
+  );
 }
