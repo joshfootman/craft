@@ -29,11 +29,17 @@ export function CommandPaletteContent({
               value={[study.title, ...study.tags, ...study.techniques].join(" ")}
               onSelect={() => on_select?.(study.id)}
             >
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-2">
                 <span className="text-sm">{study.title}</span>
-                {study.tags.length > 0
-                  ? study.tags.map((tag) => <Badge variant="outline">{tag}</Badge>)
-                  : null}
+                {study.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {study.tags.map((tag) => (
+                      <Badge key={tag} variant="outline">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
               </div>
             </CommandItem>
           ))}

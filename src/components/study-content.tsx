@@ -107,9 +107,9 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
 
   return (
     <div className="flex h-full flex-col" data-theme={meta.theme}>
-      <header className="flex h-10 shrink-0 items-center gap-2 border-b px-4">
+      <header className="flex shrink-0 items-center gap-2 border-b px-4 py-2">
         <SidebarTrigger />
-        <Separator orientation="vertical" className="my-2" />
+        <Separator orientation="vertical" className="my-1" />
         {import.meta.env.DEV ? (
           <a
             href={`vscode://file/${PROJECT_ROOT}/src/pages/studies/${meta.id}/_component.tsx`}
@@ -145,7 +145,7 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
               </button>
             );
           })}
-          <Separator orientation="vertical" className="mx-1 my-2" />
+          <Separator orientation="vertical" className="my-0.5" />
           <button
             type="button"
             onClick={() => set_remount_key((k) => k + 1)}
@@ -158,10 +158,10 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
       </header>
       <div
         ref={container_ref}
-        className="relative flex flex-1 items-start justify-start overflow-auto p-4"
+        className="relative flex flex-1 items-start justify-start overflow-auto bg-neutral-100"
       >
         <div
-          className="relative h-full"
+          className="relative h-full bg-white"
           style={{
             width: !measured && frame_width === 0 ? "100%" : `${display_width}px`,
             maxWidth: "100%",

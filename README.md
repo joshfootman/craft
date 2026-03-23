@@ -31,9 +31,9 @@ The dev server runs at `localhost:4321`.
 - [Astro](https://astro.build) — static site framework
 - [React](https://react.dev) — interactive components
 - [Tailwind CSS](https://tailwindcss.com) — styling
-- [Motion](https://motion.dev) — animation
+- [Motion](https://motion.dev) / [GSAP](https://gsap.com/) — animation
 - [Three.js](https://threejs.org) / [React Three Fiber](https://r3f.docs.pmnd.rs) — 3D graphics
-- [Vitest](https://vitest.dev) — testing
+- [Vitest](https://vitest.dev) / [Playwright](https://playwright.dev/) — testing
 - [shadcn/ui](https://ui.shadcn.com) — component primitives
 
 ## License

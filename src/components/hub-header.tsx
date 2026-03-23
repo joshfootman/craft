@@ -1,21 +1,11 @@
-import { useEffect, useState } from "react";
-import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
-import { AppSidebar } from "~/components/app-sidebar";
-import { StudyContent } from "~/components/study-content";
+import { useState, useEffect } from "react";
+import { SearchIcon } from "lucide-react";
+import { Kbd } from "~/components/ui/kbd";
 import { CommandPalette } from "~/components/command-palette";
 import type { Meta } from "~/types/study";
+import { Logo } from "~/assets/logo";
 
-export function Shell({
-  studies,
-  active_study_id,
-  meta,
-  children,
-}: {
-  studies: Meta[];
-  active_study_id: string;
-  meta?: Meta;
-  children: React.ReactNode;
-}) {
+export function HubHeader({ studies }: { studies: Meta[] }) {
   const [command_open, set_command_open] = useState(false);
 
   useEffect(() => {
@@ -37,16 +27,21 @@ export function Shell({
   }, []);
 
   return (
-    <SidebarProvider>
-      <AppSidebar
-        studies={studies}
-        active_study_id={active_study_id}
-        on_search_click={() => set_command_open(true)}
-      />
-      <SidebarInset>
-        {meta ? <StudyContent meta={meta}>{children}</StudyContent> : children}
-      </SidebarInset>
+    <>
+      <header className="flex shrink-0 items-center justify-between px-8 pt-8">
+        <Logo />
+        <button
+          type="button"
+          onClick={() => set_command_open(true)}
+          className="flex h-8 w-60 items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground ring-1 ring-border"
+          aria-label="Search studies"
+        >
+          <SearchIcon className="size-4" />
+          <span>Search...</span>
+          <Kbd className="ml-auto">⌘K</Kbd>
+        </button>
+      </header>
       <CommandPalette studies={studies} open={command_open} on_open_change={set_command_open} />
-    </SidebarProvider>
+    </>
   );
 }
