@@ -13,6 +13,12 @@ export function HubHeader({ studies }: { studies: Meta[] }) {
         e.preventDefault();
         set_command_open((open) => !open);
       }
+      if (e.key === "/" && !e.metaKey && !e.ctrlKey) {
+        const tag = (e.target as HTMLElement).tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        e.preventDefault();
+        set_command_open(true);
+      }
     }
 
     window.addEventListener("keydown", handle_keydown);
