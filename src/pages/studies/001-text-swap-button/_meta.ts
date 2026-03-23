@@ -5,7 +5,7 @@ export const meta = {
   title: "Text Swap Button",
   description: "Text swap button animation with conditional icon animation",
   status: "published",
-  tags: ["Motion"],
+  tags: ["Motion", 'Rotation'],
   category: "Osmo Side Navigation",
   date: "2026-03-23",
   theme: "light",
