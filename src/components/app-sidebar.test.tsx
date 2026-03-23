@@ -51,22 +51,15 @@ describe("AppSidebar", () => {
     expect(link_a).not.toHaveAttribute("data-active");
   });
 
-  it("renders studies grouped by category", () => {
+  it("shows category badge for non-General studies", () => {
     const studies = [
-      make_meta({ id: "a", title: "Study A", category: "motion" }),
-      make_meta({ id: "b", title: "Study B", category: "3d" }),
-      make_meta({ id: "c", title: "Study C", category: "motion" }),
+      make_meta({ id: "a", title: "Study A", category: "Stripe Pricing" }),
+      make_meta({ id: "b", title: "Study B", category: "General" }),
     ];
 
     render_sidebar({ studies, active_study_id: "a" });
 
-    const group_labels = screen.getAllByText(/^(motion|3d)$/);
-    const label_texts = group_labels.map((el) => el.textContent);
-    expect(label_texts).toContain("motion");
-    expect(label_texts).toContain("3d");
-
-    expect(screen.getAllByText("Study A").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("Study B").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("Study C").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("Stripe Pricing")).toBeInTheDocument();
+    expect(screen.queryByText("General")).not.toBeInTheDocument();
   });
 });
