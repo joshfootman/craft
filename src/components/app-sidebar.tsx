@@ -87,6 +87,7 @@ export function AppSidebar({
         ))}
         {standalone.length > 0 && (
           <SidebarGroup>
+            <SidebarGroupLabel>General</SidebarGroupLabel>
             <SidebarGroupContent>
               <StudyList studies={standalone} active_study_id={active_study_id} />
             </SidebarGroupContent>
