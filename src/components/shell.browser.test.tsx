@@ -4,7 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { Shell } from "./shell";
 import type { Meta } from "~/types/study";
 
-function make_meta(overrides: Partial<Meta> = {}): Meta {
+function makeMeta(overrides: Partial<Meta> = {}): Meta {
   return {
     id: "test-study",
     title: "Test Study",
@@ -20,8 +20,8 @@ function make_meta(overrides: Partial<Meta> = {}): Meta {
 }
 
 const studies: Meta[] = [
-  make_meta(),
-  make_meta({
+  makeMeta(),
+  makeMeta({
     id: "second-study",
     title: "Second Study",
     tags: ["layout"],
@@ -37,7 +37,7 @@ describe("Shell (browser)", () => {
 
   it("cmd+b toggles sidebar collapsed/expanded", async () => {
     const result = await render(
-      <Shell studies={studies} active_study_id="test-study" meta={studies[0]}>
+      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
         <div>content</div>
       </Shell>,
     );
@@ -58,7 +58,7 @@ describe("Shell (browser)", () => {
 
   it("cmd+k opens the command palette", async () => {
     await render(
-      <Shell studies={studies} active_study_id="test-study" meta={studies[0]}>
+      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
         <div>content</div>
       </Shell>,
     );
@@ -73,7 +73,7 @@ describe("Shell (browser)", () => {
 
   it("esc closes the command palette", async () => {
     await render(
-      <Shell studies={studies} active_study_id="test-study" meta={studies[0]}>
+      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
         <div>content</div>
       </Shell>,
     );
@@ -87,13 +87,13 @@ describe("Shell (browser)", () => {
 
   it("sidebar search button opens the command palette", async () => {
     await render(
-      <Shell studies={studies} active_study_id="test-study" meta={studies[0]}>
+      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
         <div>content</div>
       </Shell>,
     );
 
-    const search_btn = page.getByLabelText("Search studies");
-    await search_btn.click();
+    const searchBtn = page.getByLabelText("Search studies");
+    await searchBtn.click();
 
     const dialog = page.getByRole("dialog");
     await expect.element(dialog).toBeVisible();

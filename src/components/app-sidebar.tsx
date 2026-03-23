@@ -13,17 +13,17 @@ import {
 import { SearchIcon } from "lucide-react";
 import { Kbd } from "~/components/ui/kbd";
 import { Badge } from "~/components/ui/badge";
-import { group_studies } from "~/lib/studies";
+import { groupStudies } from "~/lib/studies";
 import type { Meta } from "~/types/study";
 import { Logo } from "~/assets/logo";
 
-function StudyList({ studies, active_study_id }: { studies: Meta[]; active_study_id: string }) {
+function StudyList({ studies, activeStudyId }: { studies: Meta[]; activeStudyId: string }) {
   return (
     <SidebarMenu>
       {studies.map((study) => (
         <SidebarMenuItem key={study.id}>
           <SidebarMenuButton
-            isActive={study.id === active_study_id}
+            isActive={study.id === activeStudyId}
             render={<a href={`/studies/${study.id}`} />}
             className="h-auto py-2"
           >
@@ -51,14 +51,14 @@ function StudyList({ studies, active_study_id }: { studies: Meta[]; active_study
 
 export function AppSidebar({
   studies,
-  active_study_id,
-  on_search_click,
+  activeStudyId,
+  onSearchClick,
 }: {
   studies: Meta[];
-  active_study_id: string;
-  on_search_click?: () => void;
+  activeStudyId: string;
+  onSearchClick?: () => void;
 }) {
-  const { breakdowns, standalone } = group_studies(studies);
+  const { breakdowns, standalone } = groupStudies(studies);
 
   return (
     <Sidebar>
@@ -70,7 +70,7 @@ export function AppSidebar({
         </div>
         <button
           type="button"
-          onClick={on_search_click}
+          onClick={onSearchClick}
           className="flex h-8 w-full items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground shadow-none ring-1 ring-border"
           aria-label="Search studies"
         >
@@ -80,11 +80,11 @@ export function AppSidebar({
         </button>
       </SidebarHeader>
       <SidebarContent>
-        {[...breakdowns.entries()].map(([category, category_studies]) => (
+        {breakdowns.entries().map(([category, categoryStudies]) => (
           <SidebarGroup key={category}>
             <SidebarGroupLabel>{category}</SidebarGroupLabel>
             <SidebarGroupContent>
-              <StudyList studies={category_studies} active_study_id={active_study_id} />
+              <StudyList studies={categoryStudies} activeStudyId={activeStudyId} />
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
@@ -92,7 +92,7 @@ export function AppSidebar({
           <SidebarGroup>
             <SidebarGroupLabel>General</SidebarGroupLabel>
             <SidebarGroupContent>
-              <StudyList studies={standalone} active_study_id={active_study_id} />
+              <StudyList studies={standalone} activeStudyId={activeStudyId} />
             </SidebarGroupContent>
           </SidebarGroup>
         )}

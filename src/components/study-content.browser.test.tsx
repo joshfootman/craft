@@ -5,7 +5,7 @@ import { SidebarProvider } from "~/components/ui/sidebar";
 import { StudyContent } from "./study-content";
 import type { Meta } from "~/types/study";
 
-function make_meta(overrides: Partial<Meta> = {}): Meta {
+function makeMeta(overrides: Partial<Meta> = {}): Meta {
   return {
     id: "test-study",
     title: "Test Study",
@@ -26,7 +26,7 @@ describe("StudyContent (browser)", () => {
   });
 
   it("defaults to full width when viewport is desktop", async () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     render(
       <SidebarProvider>
@@ -36,12 +36,12 @@ describe("StudyContent (browser)", () => {
       </SidebarProvider>,
     );
 
-    const desktop_btn = page.getByRole("button", { name: "desktop" });
-    await expect.element(desktop_btn).toHaveAttribute("aria-pressed", "true");
+    const desktopBtn = page.getByRole("button", { name: "desktop" });
+    await expect.element(desktopBtn).toHaveAttribute("aria-pressed", "true");
   });
 
   it("resizes content area when toggling to mobile", async () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     render(
       <SidebarProvider>
@@ -51,17 +51,17 @@ describe("StudyContent (browser)", () => {
       </SidebarProvider>,
     );
 
-    const mobile_btn = page.getByRole("button", { name: "mobile" });
-    await mobile_btn.click();
+    const mobileBtn = page.getByRole("button", { name: "mobile" });
+    await mobileBtn.click();
 
-    await expect.element(mobile_btn).toHaveAttribute("aria-pressed", "true");
+    await expect.element(mobileBtn).toHaveAttribute("aria-pressed", "true");
 
-    const desktop_btn = page.getByRole("button", { name: "desktop" });
-    await expect.element(desktop_btn).toHaveAttribute("aria-pressed", "false");
+    const desktopBtn = page.getByRole("button", { name: "desktop" });
+    await expect.element(desktopBtn).toHaveAttribute("aria-pressed", "false");
   });
 
   it("defaults to mobile width when viewport is mobile", async () => {
-    const meta = make_meta({ viewport: "mobile" });
+    const meta = makeMeta({ viewport: "mobile" });
 
     render(
       <SidebarProvider>
@@ -71,12 +71,12 @@ describe("StudyContent (browser)", () => {
       </SidebarProvider>,
     );
 
-    const mobile_btn = page.getByRole("button", { name: "mobile" });
-    await expect.element(mobile_btn).toHaveAttribute("aria-pressed", "true");
+    const mobileBtn = page.getByRole("button", { name: "mobile" });
+    await expect.element(mobileBtn).toHaveAttribute("aria-pressed", "true");
   });
 
   it("dragging the resize handle changes the frame width", async () => {
-    const meta = make_meta({ viewport: "mobile" });
+    const meta = makeMeta({ viewport: "mobile" });
 
     const result = await render(
       <SidebarProvider>
@@ -90,27 +90,27 @@ describe("StudyContent (browser)", () => {
     expect(handle).not.toBeNull();
 
     const frame = result.container.querySelector("[data-testid='study']")!.parentElement!;
-    const initial_width = frame.offsetWidth;
+    const initialWidth = frame.offsetWidth;
 
-    const handle_rect = handle.getBoundingClientRect();
-    const start_x = handle_rect.left + handle_rect.width / 2;
-    const start_y = handle_rect.top + handle_rect.height / 2;
+    const handleRect = handle.getBoundingClientRect();
+    const startX = handleRect.left + handleRect.width / 2;
+    const startY = handleRect.top + handleRect.height / 2;
 
     handle.dispatchEvent(
-      new PointerEvent("pointerdown", { clientX: start_x, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointerdown", { clientX: startX, clientY: startY, bubbles: true }),
     );
     document.dispatchEvent(
-      new PointerEvent("pointermove", { clientX: start_x + 100, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointermove", { clientX: startX + 100, clientY: startY, bubbles: true }),
     );
     document.dispatchEvent(
-      new PointerEvent("pointerup", { clientX: start_x + 100, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointerup", { clientX: startX + 100, clientY: startY, bubbles: true }),
     );
 
-    await expect.poll(() => frame.offsetWidth).not.toBe(initial_width);
+    await expect.poll(() => frame.offsetWidth).not.toBe(initialWidth);
   });
 
   it("dragging to a non-preset width deselects all preset buttons", async () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     const result = await render(
       <SidebarProvider>
@@ -120,23 +120,23 @@ describe("StudyContent (browser)", () => {
       </SidebarProvider>,
     );
 
-    const tablet_btn = page.getByRole("button", { name: "tablet" });
-    await tablet_btn.click();
-    await expect.element(tablet_btn).toHaveAttribute("aria-pressed", "true");
+    const tabletBtn = page.getByRole("button", { name: "tablet" });
+    await tabletBtn.click();
+    await expect.element(tabletBtn).toHaveAttribute("aria-pressed", "true");
 
     const handle = result.container.querySelector("[data-testid='resize-handle']") as HTMLElement;
-    const handle_rect = handle.getBoundingClientRect();
-    const start_x = handle_rect.left + handle_rect.width / 2;
-    const start_y = handle_rect.top + handle_rect.height / 2;
+    const handleRect = handle.getBoundingClientRect();
+    const startX = handleRect.left + handleRect.width / 2;
+    const startY = handleRect.top + handleRect.height / 2;
 
     handle.dispatchEvent(
-      new PointerEvent("pointerdown", { clientX: start_x, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointerdown", { clientX: startX, clientY: startY, bubbles: true }),
     );
     document.dispatchEvent(
-      new PointerEvent("pointermove", { clientX: start_x - 20, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointermove", { clientX: startX - 20, clientY: startY, bubbles: true }),
     );
     document.dispatchEvent(
-      new PointerEvent("pointerup", { clientX: start_x - 20, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointerup", { clientX: startX - 20, clientY: startY, bubbles: true }),
     );
 
     await expect
@@ -151,7 +151,7 @@ describe("StudyContent (browser)", () => {
   });
 
   it("handle is hidden when frame is at container width", async () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     const result = await render(
       <SidebarProvider>
@@ -175,7 +175,7 @@ describe("StudyContent (browser)", () => {
   });
 
   it("handle is visible when frame is below container width", async () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     const result = await render(
       <SidebarProvider>
@@ -185,15 +185,15 @@ describe("StudyContent (browser)", () => {
       </SidebarProvider>,
     );
 
-    const tablet_btn = page.getByRole("button", { name: "tablet" });
-    await tablet_btn.click();
+    const tabletBtn = page.getByRole("button", { name: "tablet" });
+    await tabletBtn.click();
 
     const handle = result.container.querySelector("[data-testid='resize-handle']") as HTMLElement;
     await expect.poll(() => getComputedStyle(handle).opacity).toBe("1");
   });
 
   it("drag is clamped to mobile preset minimum", async () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     const result = await render(
       <SidebarProvider>
@@ -203,24 +203,24 @@ describe("StudyContent (browser)", () => {
       </SidebarProvider>,
     );
 
-    const tablet_btn = page.getByRole("button", { name: "tablet" });
-    await tablet_btn.click();
+    const tabletBtn = page.getByRole("button", { name: "tablet" });
+    await tabletBtn.click();
 
     const handle = result.container.querySelector("[data-testid='resize-handle']") as HTMLElement;
     const frame = result.container.querySelector("[data-testid='study']")!.parentElement!;
 
-    const handle_rect = handle.getBoundingClientRect();
-    const start_x = handle_rect.left + handle_rect.width / 2;
-    const start_y = handle_rect.top + handle_rect.height / 2;
+    const handleRect = handle.getBoundingClientRect();
+    const startX = handleRect.left + handleRect.width / 2;
+    const startY = handleRect.top + handleRect.height / 2;
 
     handle.dispatchEvent(
-      new PointerEvent("pointerdown", { clientX: start_x, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointerdown", { clientX: startX, clientY: startY, bubbles: true }),
     );
     document.dispatchEvent(
-      new PointerEvent("pointermove", { clientX: start_x - 2000, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointermove", { clientX: startX - 2000, clientY: startY, bubbles: true }),
     );
     document.dispatchEvent(
-      new PointerEvent("pointerup", { clientX: start_x - 2000, clientY: start_y, bubbles: true }),
+      new PointerEvent("pointerup", { clientX: startX - 2000, clientY: startY, bubbles: true }),
     );
 
     await expect.poll(() => frame.offsetWidth).toBe(390);

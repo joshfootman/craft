@@ -1,6 +1,6 @@
 import type { Pattern } from "~/lib/patterns";
 
-function pattern_elements(pattern: Pattern["pattern"], size: number, fg: string) {
+function patternElements(pattern: Pattern["pattern"], size: number, fg: string) {
   const id = `p-${pattern}-${size}`;
   const half = size / 2;
 
@@ -50,7 +50,7 @@ function pattern_elements(pattern: Pattern["pattern"], size: number, fg: string)
 }
 
 export function PatternBg({ pattern }: { pattern: Pattern }) {
-  const { id, size, element } = pattern_elements(pattern.pattern, pattern.size, pattern.fg);
+  const { id, size, element } = patternElements(pattern.pattern, pattern.size, pattern.fg);
 
   return (
     <svg

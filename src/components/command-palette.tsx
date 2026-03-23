@@ -12,10 +12,10 @@ import { Badge } from "./ui/badge";
 
 export function CommandPaletteContent({
   studies,
-  on_select,
+  onSelect,
 }: {
   studies: Meta[];
-  on_select?: (study_id: string) => void;
+  onSelect?: (studyId: string) => void;
 }) {
   return (
     <Command>
@@ -27,7 +27,7 @@ export function CommandPaletteContent({
             <CommandItem
               key={study.id}
               value={[study.title, ...study.tags].join(" ")}
-              onSelect={() => on_select?.(study.id)}
+              onSelect={() => onSelect?.(study.id)}
             >
               <div className="flex flex-col gap-2">
                 <span className="text-sm">{study.title}</span>
@@ -52,25 +52,25 @@ export function CommandPaletteContent({
 export function CommandPalette({
   studies,
   open,
-  on_open_change,
+  onOpenChange,
 }: {
   studies: Meta[];
   open: boolean;
-  on_open_change: (open: boolean) => void;
+  onOpenChange: (open: boolean) => void;
 }) {
-  function handle_select(study_id: string) {
-    on_open_change(false);
-    window.location.href = `/studies/${study_id}`;
+  function handleSelect(studyId: string) {
+    onOpenChange(false);
+    window.location.href = `/studies/${studyId}`;
   }
 
   return (
     <CommandDialog
       open={open}
-      onOpenChange={on_open_change}
+      onOpenChange={onOpenChange}
       title="Search studies"
       description="Search across all studies by title or tags."
     >
-      <CommandPaletteContent studies={studies} on_select={handle_select} />
+      <CommandPaletteContent studies={studies} onSelect={handleSelect} />
     </CommandDialog>
   );
 }

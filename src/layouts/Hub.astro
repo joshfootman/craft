@@ -1,15 +1,15 @@
 ---
 import "~/styles/global.css";
-import { load_studies } from "~/lib/studies";
+import { loadStudies } from "~/lib/studies";
 import { HubHeader } from "~/components/hub-header";
 import { Hub } from "~/components/hub";
 import type { Meta } from "~/types/study";
 
-const glob_result = import.meta.glob<{ meta: Meta }>(
+const globResults = import.meta.glob<{ meta: Meta }>(
   "/src/pages/studies/**/_meta.ts",
   { eager: true },
 );
-const studies = load_studies(glob_result);
+const studies = loadStudies(globResults);
 ---
 
 <html lang="en">
