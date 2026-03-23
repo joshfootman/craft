@@ -11,9 +11,7 @@ describe("get_pattern", () => {
 
   it("produces different results for different ids", () => {
     const results = new Set(
-      ["alpha", "beta", "gamma", "delta", "epsilon"].map(
-        (id) => JSON.stringify(get_pattern(id)),
-      ),
+      ["alpha", "beta", "gamma", "delta", "epsilon"].map((id) => JSON.stringify(get_pattern(id))),
     );
 
     expect(results.size).toBeGreaterThan(1);

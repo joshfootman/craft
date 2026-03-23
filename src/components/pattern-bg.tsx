@@ -29,14 +29,7 @@ function pattern_elements(pattern: Pattern["pattern"], size: number, fg: string)
         id,
         size,
         element: (
-          <line
-            x1={half}
-            y1={0}
-            x2={half}
-            y2={size}
-            stroke={fg}
-            strokeWidth={size * 0.08}
-          />
+          <line x1={half} y1={0} x2={half} y2={size} stroke={fg} strokeWidth={size * 0.08} />
         ),
       };
     case "horizontal-bars":
@@ -44,30 +37,14 @@ function pattern_elements(pattern: Pattern["pattern"], size: number, fg: string)
         id,
         size,
         element: (
-          <line
-            x1={0}
-            y1={half}
-            x2={size}
-            y2={half}
-            stroke={fg}
-            strokeWidth={size * 0.08}
-          />
+          <line x1={0} y1={half} x2={size} y2={half} stroke={fg} strokeWidth={size * 0.08} />
         ),
       };
     case "diagonal":
       return {
         id,
         size,
-        element: (
-          <line
-            x1={0}
-            y1={size}
-            x2={size}
-            y2={0}
-            stroke={fg}
-            strokeWidth={size * 0.08}
-          />
-        ),
+        element: <line x1={0} y1={size} x2={size} y2={0} stroke={fg} strokeWidth={size * 0.08} />,
       };
   }
 }
