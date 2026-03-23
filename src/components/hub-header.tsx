@@ -3,6 +3,7 @@ import { SearchIcon } from "lucide-react";
 import { Kbd } from "~/components/ui/kbd";
 import { CommandPalette } from "~/components/command-palette";
 import type { Meta } from "~/types/study";
+import { Logo } from "~/assets/logo";
 
 export function HubHeader({ studies }: { studies: Meta[] }) {
   const [command_open, set_command_open] = useState(false);
@@ -27,12 +28,12 @@ export function HubHeader({ studies }: { studies: Meta[] }) {
 
   return (
     <>
-      <header className="flex h-12 shrink-0 items-center justify-between border-b px-8">
-        <span className="text-sm font-semibold tracking-tight">Craft</span>
+      <header className="flex shrink-0 items-center justify-between px-8 pt-8">
+        <Logo />
         <button
           type="button"
           onClick={() => set_command_open(true)}
-          className="flex h-8 w-64 items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground ring-1 ring-border"
+          className="flex h-8 w-60 items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground ring-1 ring-border"
           aria-label="Search studies"
         >
           <SearchIcon className="size-4" />

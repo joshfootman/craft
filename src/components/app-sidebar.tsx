@@ -15,6 +15,7 @@ import { Kbd } from "~/components/ui/kbd";
 import { Badge } from "~/components/ui/badge";
 import { group_studies } from "~/lib/studies";
 import type { Meta } from "~/types/study";
+import { Logo } from "~/assets/logo";
 
 function StudyList({ studies, active_study_id }: { studies: Meta[]; active_study_id: string }) {
   return (
@@ -61,8 +62,8 @@ export function AppSidebar({
     <Sidebar>
       <SidebarHeader>
         <div className="px-2 py-1">
-          <a href="/" className="text-sm font-semibold tracking-tight">
-            Craft
+          <a href="/" className="text-md font-semibold" aria-label="Craft logo">
+            <Logo />
           </a>
         </div>
         <button
