@@ -11,7 +11,6 @@ function make_meta(overrides: Partial<Meta> = {}): Meta {
     title: "Test Study",
     description: "A test study",
     status: "published",
-    techniques: [],
     tags: [],
     category: "test",
     date: "2026-01-01",

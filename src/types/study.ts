@@ -7,7 +7,6 @@ export type Meta = {
   title: string;
   description: string;
   status: Status;
-  techniques: string[];
   tags: string[];
   category: string;
   inspiration?: string[];

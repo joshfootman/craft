@@ -26,7 +26,7 @@ export function CommandPaletteContent({
           {studies.map((study) => (
             <CommandItem
               key={study.id}
-              value={[study.title, ...study.tags, ...study.techniques].join(" ")}
+              value={[study.title, ...study.tags].join(" ")}
               onSelect={() => on_select?.(study.id)}
             >
               <div className="flex flex-col gap-2">
@@ -68,7 +68,7 @@ export function CommandPalette({
       open={open}
       onOpenChange={on_open_change}
       title="Search studies"
-      description="Search across all studies by title, tags, or techniques."
+      description="Search across all studies by title or tags."
     >
       <CommandPaletteContent studies={studies} on_select={handle_select} />
     </CommandDialog>
