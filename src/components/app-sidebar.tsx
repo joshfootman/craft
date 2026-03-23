@@ -28,8 +28,10 @@ function StudyList({ studies, active_study_id }: { studies: Meta[]; active_study
             className="h-auto py-2"
           >
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="line-clamp-2 text-sm font-medium">{study.title}</span>
-              <span className="truncate text-xs text-muted-foreground">{study.description}</span>
+              <span className="truncate text-sm font-medium">{study.title}</span>
+              <span className="line-clamp-2 text-xs text-muted-foreground">
+                {study.description}
+              </span>
               {study.tags.length > 0 && (
                 <span className="flex flex-wrap gap-1">
                   {study.tags.map((tag) => (
