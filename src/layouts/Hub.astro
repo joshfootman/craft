@@ -1,7 +1,7 @@
 ---
 import "~/styles/global.css";
 import { load_studies } from "~/lib/studies";
-import { Shell } from "~/components/shell";
+import { HubHeader } from "~/components/hub-header";
 import { Hub } from "~/components/hub";
 import type { Meta } from "~/types/study";
 
@@ -21,9 +21,10 @@ const studies = load_studies(glob_result);
     <meta name="generator" content={Astro.generator} />
     <title>Craft</title>
   </head>
-  <body>
-    <Shell studies={studies} active_study_id="" client:load>
-      <Hub studies={studies} />
-    </Shell>
+  <body class="flex h-screen flex-col">
+    <HubHeader studies={studies} client:load />
+    <main class="flex-1 overflow-auto">
+      <Hub studies={studies} client:load />
+    </main>
   </body>
 </html>

@@ -3,6 +3,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -12,7 +13,46 @@ import {
 import { SearchIcon } from "lucide-react";
 import { Kbd } from "~/components/ui/kbd";
 import { Badge } from "~/components/ui/badge";
+import { group_studies } from "~/lib/studies";
 import type { Meta } from "~/types/study";
+
+function StudyList({
+  studies,
+  active_study_id,
+}: {
+  studies: Meta[];
+  active_study_id: string;
+}) {
+  return (
+    <SidebarMenu>
+      {studies.map((study) => (
+        <SidebarMenuItem key={study.id}>
+          <SidebarMenuButton
+            isActive={study.id === active_study_id}
+            render={<a href={`/studies/${study.id}`} />}
+            className="h-auto py-2"
+          >
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <span className="line-clamp-2 text-sm font-medium">{study.title}</span>
+              <span className="truncate text-xs text-muted-foreground">
+                {study.description}
+              </span>
+              {study.tags.length > 0 && (
+                <span className="flex flex-wrap gap-1">
+                  {study.tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </span>
+              )}
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  );
+}
 
 export function AppSidebar({
   studies,
@@ -23,6 +63,8 @@ export function AppSidebar({
   active_study_id: string;
   on_search_click?: () => void;
 }) {
+  const { breakdowns, standalone } = group_studies(studies);
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -43,42 +85,21 @@ export function AppSidebar({
         </button>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {studies.map((study) => (
-                <SidebarMenuItem key={study.id}>
-                  <SidebarMenuButton
-                    isActive={study.id === active_study_id}
-                    render={<a href={`/studies/${study.id}`} />}
-                    className="h-auto py-2"
-                  >
-                    <div className="flex min-w-0 flex-col gap-0.5">
-                      <span className="line-clamp-2 text-sm font-medium">{study.title}</span>
-                      <span className="truncate text-xs text-muted-foreground">
-                        {study.description}
-                      </span>
-                      {study.tags.length > 0 && (
-                        <span className="flex flex-wrap gap-1">
-                          {study.tags.map((tag) => (
-                            <Badge key={tag} variant="outline">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </span>
-                      )}
-                      {study.category !== "General" && (
-                        <Badge variant="secondary" className="w-fit">
-                          {study.category}
-                        </Badge>
-                      )}
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {[...breakdowns.entries()].map(([category, category_studies]) => (
+          <SidebarGroup key={category}>
+            <SidebarGroupLabel>{category}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <StudyList studies={category_studies} active_study_id={active_study_id} />
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+        {standalone.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <StudyList studies={standalone} active_study_id={active_study_id} />
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
