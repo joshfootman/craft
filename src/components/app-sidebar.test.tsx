@@ -1,5 +1,7 @@
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, expect, it, afterEach } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
+
+afterEach(cleanup);
 import { AppSidebar } from "./app-sidebar";
 import { SidebarProvider } from "./ui/sidebar";
 import type { Meta } from "~/types/study";
@@ -63,5 +65,29 @@ describe("AppSidebar", () => {
     expect(screen.getAllByText("Study A").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Study B").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Study C").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("shows first two tags and +X for remaining tags", () => {
+    const studies = [
+      makeMeta({ id: "a", title: "Study A", tags: ["Motion", "Rotation", "Spring", "Easing"] }),
+    ];
+
+    renderSidebar({ studies, activeStudyId: "a" });
+
+    expect(screen.getByText("Motion")).toBeInTheDocument();
+    expect(screen.getByText("Rotation")).toBeInTheDocument();
+    expect(screen.queryByText("Spring")).not.toBeInTheDocument();
+    expect(screen.queryByText("Easing")).not.toBeInTheDocument();
+    expect(screen.getByText("+2")).toBeInTheDocument();
+  });
+
+  it("shows all tags without +X badge when two or fewer", () => {
+    const studies = [makeMeta({ id: "a", title: "Study A", tags: ["Motion", "Rotation"] })];
+
+    renderSidebar({ studies, activeStudyId: "a" });
+
+    expect(screen.getByText("Motion")).toBeInTheDocument();
+    expect(screen.getByText("Rotation")).toBeInTheDocument();
+    expect(screen.queryByText(/^\+\d+$/)).not.toBeInTheDocument();
   });
 });

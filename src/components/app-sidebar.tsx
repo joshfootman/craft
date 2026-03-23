@@ -33,12 +33,15 @@ function StudyList({ studies, activeStudyId }: { studies: Meta[]; activeStudyId:
                 {study.description}
               </span>
               {study.tags.length > 0 && (
-                <span className="flex flex-wrap gap-1">
-                  {study.tags.map((tag) => (
+                <span className="flex gap-1">
+                  {study.tags.slice(0, 2).map((tag) => (
                     <Badge key={tag} variant="outline">
                       {tag}
                     </Badge>
                   ))}
+                  {study.tags.length > 2 && (
+                    <Badge variant="outline">+{study.tags.length - 2}</Badge>
+                  )}
                 </span>
               )}
             </div>
