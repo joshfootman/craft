@@ -13,7 +13,7 @@ export function Shell({
 }: {
   studies: Meta[];
   active_study_id: string;
-  meta: Meta;
+  meta?: Meta;
   children: React.ReactNode;
 }) {
   const [command_open, set_command_open] = useState(false);
@@ -38,7 +38,7 @@ export function Shell({
         on_search_click={() => set_command_open(true)}
       />
       <SidebarInset>
-        <StudyContent meta={meta}>{children}</StudyContent>
+        {meta ? <StudyContent meta={meta}>{children}</StudyContent> : children}
       </SidebarInset>
       <CommandPalette studies={studies} open={command_open} on_open_change={set_command_open} />
     </SidebarProvider>
