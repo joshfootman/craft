@@ -2,7 +2,7 @@
 import "~/styles/global.css";
 import { loadStudies } from "~/lib/studies";
 import { HubHeader } from "~/components/hub-header";
-import { Hub } from "~/components/hub";
+import { Hub as CraftHub } from "~/components/hub";
 import type { Meta } from "~/types/study";
 
 const globResults = import.meta.glob<{ meta: Meta }>(
@@ -24,7 +24,7 @@ const studies = loadStudies(globResults);
   <body class="flex h-screen flex-col">
     <HubHeader studies={studies} client:load />
     <main class="flex-1 overflow-auto">
-      <Hub studies={studies} client:load />
+      <CraftHub studies={studies} client:load />
     </main>
   </body>
 </html>
