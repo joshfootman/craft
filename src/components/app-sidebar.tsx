@@ -80,7 +80,7 @@ export function AppSidebar({
         </button>
       </SidebarHeader>
       <SidebarContent>
-        {breakdowns.entries().map(([category, categoryStudies]) => (
+        {Array.from(breakdowns.entries()).map(([category, categoryStudies]) => (
           <SidebarGroup key={category}>
             <SidebarGroupLabel>{category}</SidebarGroupLabel>
             <SidebarGroupContent>
