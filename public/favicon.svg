@@ -1,16 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black"
-  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <style>
-    @media (prefers-color-scheme: dark) {
-      svg {
-        stroke: white;
-      }
-    }
-  </style>
-  <path d="M2 6h4" />
-  <path d="M2 10h4" />
-  <path d="M2 14h4" />
-  <path d="M2 18h4" />
-  <rect width="16" height="20" x="4" y="2" rx="2" />
-  <path d="M16 2v20" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="vaporwave" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#19d3c5" />
+      <stop offset="30%" stop-color="#3aa0d8" />
+      <stop offset="55%" stop-color="#4f7bd9" />
+      <stop offset="75%" stop-color="#7a4de0" />
+      <stop offset="100%" stop-color="#b10cff" />
+    </linearGradient>
+  </defs>
+  <circle cx="12" cy="12" r="9" fill="url(#vaporwave)" />
 </svg>
