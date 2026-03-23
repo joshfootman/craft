@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { load_studies } from "./studies";
+import { group_studies, load_studies } from "./studies";
 import type { Meta } from "~/types/study";
 
 function make_glob_result(studies: Meta[]): Record<string, { meta: Meta }> {
@@ -39,7 +39,7 @@ describe("load_studies", () => {
     expect(result.map((s) => s.id)).toEqual(["newest", "middle", "oldest"]);
   });
 
-  it("preserves all metadata fields", () => {
+  it("preserves all meta fields", () => {
     const study = make_meta({
       id: "full",
       title: "Full Study",
@@ -55,5 +55,56 @@ describe("load_studies", () => {
     const [result] = load_studies(make_glob_result([study]));
 
     expect(result).toEqual(study);
+  });
+});
+
+describe("group_studies", () => {
+  it("places general studies in the standalone list", () => {
+    const study = make_meta({ id: "solo", category: "General" });
+
+    const result = group_studies([study]);
+
+    expect(result.breakdowns.size).toBe(0);
+    expect(result.standalone).toEqual([study]);
+  });
+
+  it("places named-category studies in breakdowns", () => {
+    const study = make_meta({ id: "stripe-toggle", category: "Stripe Pricing" });
+
+    const result = group_studies([study]);
+
+    expect(result.standalone).toEqual([]);
+    expect(result.breakdowns.get("Stripe Pricing")).toEqual([study]);
+  });
+
+  it("separates mixed input into breakdowns and standalone", () => {
+    const solo = make_meta({ id: "solo", category: "General" });
+    const stripe_a = make_meta({ id: "stripe-a", category: "Stripe Pricing" });
+    const stripe_b = make_meta({ id: "stripe-b", category: "Stripe Pricing" });
+    const linear = make_meta({ id: "linear-cmd", category: "Linear Command Palette" });
+
+    const result = group_studies([solo, stripe_a, stripe_b, linear]);
+
+    expect(result.standalone).toEqual([solo]);
+    expect(result.breakdowns.size).toBe(2);
+    expect(result.breakdowns.get("Stripe Pricing")).toEqual([stripe_a, stripe_b]);
+    expect(result.breakdowns.get("Linear Command Palette")).toEqual([linear]);
+  });
+
+  it("returns empty collections for empty input", () => {
+    const result = group_studies([]);
+
+    expect(result.breakdowns.size).toBe(0);
+    expect(result.standalone).toEqual([]);
+  });
+
+  it("preserves input order within each group", () => {
+    const newest = make_meta({ id: "s-new", category: "Stripe", date: "2026-03-20" });
+    const oldest = make_meta({ id: "s-old", category: "Stripe", date: "2026-01-01" });
+
+    const result = group_studies([newest, oldest]);
+
+    const ids = result.breakdowns.get("Stripe")!.map((s) => s.id);
+    expect(ids).toEqual(["s-new", "s-old"]);
   });
 });
