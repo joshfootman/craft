@@ -18,91 +18,91 @@ const DEVICE_ICONS: Record<Device, React.ComponentType<{ className?: string }>> 
 const DEVICE_LIST: Device[] = ["desktop", "tablet", "mobile"];
 
 const PRESET_WIDTHS: Record<Device, number> = {
-  mobile: DEVICE_WIDTHS.mobile as number,
-  tablet: DEVICE_WIDTHS.tablet as number,
+  mobile: DEVICE_WIDTHS.mobile,
+  tablet: DEVICE_WIDTHS.tablet,
   desktop: 0,
 };
 
-function default_width_for_viewport(viewport: Viewport): number {
+function defaultWidthForViewport(viewport: Viewport): number {
   if (viewport === "mobile") return PRESET_WIDTHS.mobile;
   return 0;
 }
 
-function active_preset(width: number, container_width: number): Device | null {
-  if (width === container_width) return "desktop";
+function activePreset(width: number, containerWidth: number): Device | null {
+  if (width === containerWidth) return "desktop";
   if (width === PRESET_WIDTHS.tablet) return "tablet";
   if (width === PRESET_WIDTHS.mobile) return "mobile";
   return null;
 }
 
 export function StudyContent({ meta, children }: { meta: Meta; children: React.ReactNode }) {
-  const container_ref = useRef<HTMLDivElement>(null);
-  const [container_width, set_container_width] = useState(0);
-  const [frame_width, set_frame_width] = useState(() => default_width_for_viewport(meta.viewport));
-  const [remount_key, set_remount_key] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [frameWidth, setFrameWidth] = useState(() => defaultWidthForViewport(meta.viewport));
+  const [remountKey, setRemountKey] = useState(0);
 
-  const measure_container = useCallback(() => {
-    if (container_ref.current) {
-      const style = getComputedStyle(container_ref.current);
-      const pad_left = parseFloat(style.paddingLeft) || 0;
-      const pad_right = parseFloat(style.paddingRight) || 0;
-      const w = container_ref.current.clientWidth - pad_left - pad_right;
-      set_container_width((prev) => {
-        if (prev === 0 && frame_width === 0) {
-          set_frame_width(w);
-        } else if (frame_width === prev && prev !== 0) {
-          set_frame_width(w);
+  const measureContainer = useCallback(() => {
+    if (containerRef.current) {
+      const style = getComputedStyle(containerRef.current);
+      const padLeft = parseFloat(style.paddingLeft) || 0;
+      const padRight = parseFloat(style.paddingRight) || 0;
+      const w = containerRef.current.clientWidth - padLeft - padRight;
+      setContainerWidth((prev) => {
+        if (prev === 0 && frameWidth === 0) {
+          setFrameWidth(w);
+        } else if (frameWidth === prev && prev !== 0) {
+          setFrameWidth(w);
         }
         return w;
       });
     }
-  }, [frame_width]);
+  }, [frameWidth]);
 
   useEffect(() => {
-    measure_container();
+    measureContainer();
 
-    if (!container_ref.current) return;
-    const observer = new ResizeObserver(measure_container);
-    observer.observe(container_ref.current);
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver(measureContainer);
+    observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [measure_container]);
+  }, [measureContainer]);
 
-  const measured = container_width > 0;
-  const effective_width = frame_width === 0 ? container_width : frame_width;
-  const display_width = effective_width || 0;
-  const preset = active_preset(display_width, container_width);
-  const is_full_width = measured && display_width >= container_width;
+  const measured = containerWidth > 0;
+  const effectiveWidth = frameWidth === 0 ? containerWidth : frameWidth;
+  const displayWidth = effectiveWidth || 0;
+  const preset = activePreset(displayWidth, containerWidth);
+  const isFullWidth = measured && displayWidth >= containerWidth;
 
-  const drag_start_ref = useRef<{ start_x: number; start_width: number } | null>(null);
+  const dragStartRef = useRef<{ startX: number; startWidth: number } | null>(null);
 
-  function handle_preset_click(device: Device) {
+  function handlePresetClick(device: Device) {
     if (device === "desktop") {
-      set_frame_width(container_width);
+      setFrameWidth(containerWidth);
     } else {
-      set_frame_width(PRESET_WIDTHS[device]);
+      setFrameWidth(PRESET_WIDTHS[device]);
     }
   }
 
-  function handle_drag_start(e: React.PointerEvent) {
+  function handleDragStart(e: React.PointerEvent) {
     e.preventDefault();
-    drag_start_ref.current = { start_x: e.clientX, start_width: display_width };
+    dragStartRef.current = { startX: e.clientX, startWidth: displayWidth };
 
-    function on_move(ev: PointerEvent) {
-      if (!drag_start_ref.current) return;
-      const delta = ev.clientX - drag_start_ref.current.start_x;
-      const new_width = Math.round(drag_start_ref.current.start_width + delta);
-      const clamped = Math.max(PRESET_WIDTHS.mobile, Math.min(new_width, container_width));
-      set_frame_width(clamped);
+    function onMove(ev: PointerEvent) {
+      if (!dragStartRef.current) return;
+      const delta = ev.clientX - dragStartRef.current.startX;
+      const newWidth = Math.round(dragStartRef.current.startWidth + delta);
+      const clamped = Math.max(PRESET_WIDTHS.mobile, Math.min(newWidth, containerWidth));
+      setFrameWidth(clamped);
     }
 
-    function on_up() {
-      drag_start_ref.current = null;
-      document.removeEventListener("pointermove", on_move);
-      document.removeEventListener("pointerup", on_up);
+    function onUp() {
+      dragStartRef.current = null;
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerup", onUp);
     }
 
-    document.addEventListener("pointermove", on_move);
-    document.addEventListener("pointerup", on_up);
+    document.addEventListener("pointermove", onMove);
+    document.addEventListener("pointerup", onUp);
   }
 
   return (
@@ -132,7 +132,7 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
               <button
                 key={device}
                 type="button"
-                onClick={() => handle_preset_click(device)}
+                onClick={() => handlePresetClick(device)}
                 aria-label={device}
                 aria-pressed={preset === device}
                 className={`rounded p-1 ${
@@ -148,7 +148,7 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
           <Separator orientation="vertical" className="my-0.5" />
           <button
             type="button"
-            onClick={() => set_remount_key((k) => k + 1)}
+            onClick={() => setRemountKey((k) => k + 1)}
             aria-label="reload"
             className="rounded p-1 text-muted-foreground hover:text-foreground"
           >
@@ -157,25 +157,25 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
         </div>
       </header>
       <div
-        ref={container_ref}
+        ref={containerRef}
         className="relative flex flex-1 items-start justify-start overflow-auto bg-neutral-100"
       >
         <div
           className="relative h-full bg-white"
           style={{
-            width: !measured && frame_width === 0 ? "100%" : `${display_width}px`,
+            width: !measured && frameWidth === 0 ? "100%" : `${displayWidth}px`,
             maxWidth: "100%",
           }}
         >
-          <div key={remount_key} className="h-full">
+          <div key={remountKey} className="h-full">
             {children}
           </div>
           <div
             data-testid="resize-handle"
-            onPointerDown={handle_drag_start}
-            style={{ opacity: is_full_width ? 0 : 1 }}
+            onPointerDown={handleDragStart}
+            style={{ opacity: isFullWidth ? 0 : 1 }}
             className={`absolute top-0 -right-3 flex h-full w-6 cursor-col-resize items-center justify-center transition-opacity ${
-              is_full_width ? "hover:opacity-100" : ""
+              isFullWidth ? "hover:opacity-100" : ""
             }`}
           >
             <div className="h-8 w-1.5 rounded-full bg-border" />

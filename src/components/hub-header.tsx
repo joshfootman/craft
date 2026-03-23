@@ -6,24 +6,24 @@ import type { Meta } from "~/types/study";
 import { Logo } from "~/assets/logo";
 
 export function HubHeader({ studies }: { studies: Meta[] }) {
-  const [command_open, set_command_open] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
 
   useEffect(() => {
-    function handle_keydown(e: KeyboardEvent) {
+    function handleKeydown(e: KeyboardEvent) {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        set_command_open((open) => !open);
+        setCommandOpen((open) => !open);
       }
       if (e.key === "/" && !e.metaKey && !e.ctrlKey) {
         const tag = (e.target as HTMLElement).tagName;
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
         e.preventDefault();
-        set_command_open(true);
+        setCommandOpen(true);
       }
     }
 
-    window.addEventListener("keydown", handle_keydown);
-    return () => window.removeEventListener("keydown", handle_keydown);
+    window.addEventListener("keydown", handleKeydown);
+    return () => window.removeEventListener("keydown", handleKeydown);
   }, []);
 
   return (
@@ -32,7 +32,7 @@ export function HubHeader({ studies }: { studies: Meta[] }) {
         <Logo />
         <button
           type="button"
-          onClick={() => set_command_open(true)}
+          onClick={() => setCommandOpen(true)}
           className="flex h-8 w-60 items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground ring-1 ring-border"
           aria-label="Search studies"
         >
@@ -41,7 +41,7 @@ export function HubHeader({ studies }: { studies: Meta[] }) {
           <Kbd className="ml-auto">⌘K</Kbd>
         </button>
       </header>
-      <CommandPalette studies={studies} open={command_open} on_open_change={set_command_open} />
+      <CommandPalette studies={studies} open={commandOpen} onOpenChange={setCommandOpen} />
     </>
   );
 }

@@ -5,7 +5,7 @@ export type GroupedStudies = {
   standalone: Meta[];
 };
 
-export function group_studies(studies: Meta[]): GroupedStudies {
+export function groupStudies(studies: Meta[]): GroupedStudies {
   const breakdowns = new Map<string, Meta[]>();
   const standalone: Meta[] = [];
 
@@ -22,8 +22,8 @@ export function group_studies(studies: Meta[]): GroupedStudies {
   return { breakdowns, standalone };
 }
 
-export function load_studies(glob_result: Record<string, { meta: Meta }>): Meta[] {
-  return Object.values(glob_result)
+export function loadStudies(globResult: Record<string, { meta: Meta }>): Meta[] {
+  return Object.values(globResult)
     .map((mod) => mod.meta)
     .sort((a, b) => b.date.localeCompare(a.date));
 }

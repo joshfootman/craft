@@ -38,7 +38,7 @@ function hash(str: string): number {
   return Math.abs(h);
 }
 
-export function get_pattern(id: string): Pattern {
+export function getPattern(id: string): Pattern {
   const h = hash(id);
   const pattern = PATTERNS[h % PATTERNS.length];
   const color = COLORS[Math.floor(h / PATTERNS.length) % COLORS.length];

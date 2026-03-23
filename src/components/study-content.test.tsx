@@ -6,7 +6,7 @@ import type { Meta } from "~/types/study";
 
 afterEach(cleanup);
 
-function make_meta(overrides: Partial<Meta> = {}): Meta {
+function makeMeta(overrides: Partial<Meta> = {}): Meta {
   return {
     id: "test-study",
     title: "Test Study",
@@ -21,7 +21,7 @@ function make_meta(overrides: Partial<Meta> = {}): Meta {
   };
 }
 
-function render_study(meta: Meta, children: React.ReactNode = <div>study</div>) {
+function renderStudy(meta: Meta, children: React.ReactNode = <div>study</div>) {
   return render(
     <SidebarProvider>
       <StudyContent meta={meta}>{children}</StudyContent>
@@ -31,12 +31,12 @@ function render_study(meta: Meta, children: React.ReactNode = <div>study</div>) 
 
 describe("StudyContent", () => {
   it("renders title and tags in the header", () => {
-    const meta = make_meta({
+    const meta = makeMeta({
       title: "Spring List",
       tags: ["motion", "spring"],
     });
 
-    render_study(meta);
+    renderStudy(meta);
 
     expect(screen.getByText("Spring List")).toBeInTheDocument();
     expect(screen.getByText("motion")).toBeInTheDocument();
@@ -44,9 +44,9 @@ describe("StudyContent", () => {
   });
 
   it("title links to the component file in vscode", () => {
-    const meta = make_meta({ id: "001-placeholder", title: "Placeholder" });
+    const meta = makeMeta({ id: "001-placeholder", title: "Placeholder" });
 
-    render_study(meta);
+    renderStudy(meta);
 
     const link = screen.getByRole("link", { name: "Placeholder" });
     expect(link).toHaveAttribute("href", expect.stringContaining("vscode://file/"));
@@ -57,16 +57,16 @@ describe("StudyContent", () => {
   });
 
   it("defaults to desktop device when viewport is desktop", () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
-    render_study(meta);
+    renderStudy(meta);
 
     expect(screen.getByRole("button", { name: "desktop" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "false");
   });
 
   it("applies data-theme from meta", () => {
-    const meta = make_meta({ theme: "dark" });
+    const meta = makeMeta({ theme: "dark" });
 
     const { container } = render(
       <SidebarProvider>
@@ -80,9 +80,9 @@ describe("StudyContent", () => {
   });
 
   it("defaults to mobile device when viewport is mobile", () => {
-    const meta = make_meta({ viewport: "mobile" });
+    const meta = makeMeta({ viewport: "mobile" });
 
-    render_study(meta);
+    renderStudy(meta);
 
     expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "desktop" })).toHaveAttribute(
@@ -92,7 +92,7 @@ describe("StudyContent", () => {
   });
 
   it("renders full width before container is measured for desktop viewport", () => {
-    const meta = make_meta({ viewport: "desktop" });
+    const meta = makeMeta({ viewport: "desktop" });
 
     const { container } = render(
       <SidebarProvider>
@@ -107,7 +107,7 @@ describe("StudyContent", () => {
   });
 
   it("renders pixel width for mobile viewport before container is measured", () => {
-    const meta = make_meta({ viewport: "mobile" });
+    const meta = makeMeta({ viewport: "mobile" });
 
     const { container } = render(
       <SidebarProvider>
@@ -122,9 +122,9 @@ describe("StudyContent", () => {
   });
 
   it("no preset is active when frame width does not match any preset", () => {
-    const meta = make_meta({ viewport: "mobile" });
+    const meta = makeMeta({ viewport: "mobile" });
 
-    render_study(meta);
+    renderStudy(meta);
 
     // mobile starts active
     expect(screen.getByRole("button", { name: "mobile" })).toHaveAttribute("aria-pressed", "true");

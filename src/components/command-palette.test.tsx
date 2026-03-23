@@ -5,7 +5,7 @@ import type { Meta } from "~/types/study";
 
 afterEach(cleanup);
 
-function make_meta(overrides: Partial<Meta> = {}): Meta {
+function makeMeta(overrides: Partial<Meta> = {}): Meta {
   return {
     id: "test-study",
     title: "Test Study",
@@ -23,8 +23,8 @@ function make_meta(overrides: Partial<Meta> = {}): Meta {
 describe("CommandPaletteContent", () => {
   it("renders all studies", () => {
     const studies = [
-      make_meta({ id: "a", title: "Spring List" }),
-      make_meta({ id: "b", title: "Flip Card" }),
+      makeMeta({ id: "a", title: "Spring List" }),
+      makeMeta({ id: "b", title: "Flip Card" }),
     ];
 
     render(<CommandPaletteContent studies={studies} />);
@@ -34,7 +34,7 @@ describe("CommandPaletteContent", () => {
   });
 
   it("renders tags for studies", () => {
-    const studies = [make_meta({ id: "a", title: "Spring List", tags: ["motion", "spring"] })];
+    const studies = [makeMeta({ id: "a", title: "Spring List", tags: ["motion", "spring"] })];
 
     render(<CommandPaletteContent studies={studies} />);
 

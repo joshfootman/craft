@@ -1,6 +1,6 @@
 ---
 import "~/styles/global.css";
-import { load_studies } from "~/lib/studies";
+import { loadStudies } from "~/lib/studies";
 import { Shell } from "~/components/shell";
 import type { Meta } from "~/types/study";
 
@@ -10,12 +10,12 @@ interface Props {
 
 const { meta } = Astro.props;
 
-const glob_result = import.meta.glob<{ meta: Meta }>(
+const globResult = import.meta.glob<{ meta: Meta }>(
   "/src/pages/studies/**/_meta.ts",
   { eager: true },
 );
-const studies = load_studies(glob_result);
-const active_study_id = meta.id;
+const studies = loadStudies(globResult);
+const activeStudyId = meta.id;
 ---
 
 <html lang="en">
@@ -30,7 +30,7 @@ const active_study_id = meta.id;
   <body>
     <Shell
       studies={studies}
-      active_study_id={active_study_id}
+      activeStudyId={activeStudyId}
       meta={meta}
       client:load
     >

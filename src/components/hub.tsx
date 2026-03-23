@@ -1,12 +1,12 @@
-import { group_studies } from "~/lib/studies";
-import { get_pattern } from "~/lib/patterns";
+import { groupStudies } from "~/lib/studies";
+import { getPattern } from "~/lib/patterns";
 import { PatternBg } from "~/components/pattern-bg";
 import { Card, CardContent } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import type { Meta } from "~/types/study";
 
 function StudyCard({ study }: { study: Meta }) {
-  const pattern = get_pattern(study.id);
+  const pattern = getPattern(study.id);
 
   return (
     <Card className="relative flex h-64 flex-col gap-0 overflow-hidden py-0 transition-shadow has-focus-visible:ring-2 has-focus-visible:ring-ring/50 has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-background">
@@ -47,13 +47,13 @@ function StudyGroup({ title, studies }: { title: string; studies: Meta[] }) {
 }
 
 export function Hub({ studies }: { studies: Meta[] }) {
-  const { breakdowns, standalone } = group_studies(studies);
+  const { breakdowns, standalone } = groupStudies(studies);
 
   return (
     <div className="flex flex-col gap-10 p-8">
       <h1 className="text-2xl font-bold tracking-tight">Studies</h1>
-      {[...breakdowns.entries()].map(([category, category_studies]) => (
-        <StudyGroup key={category} title={category} studies={category_studies} />
+      {[...breakdowns.entries()].map(([category, categoryStudies]) => (
+        <StudyGroup key={category} title={category} studies={categoryStudies} />
       ))}
       {standalone.length > 0 && <StudyGroup title="General" studies={standalone} />}
     </div>
