@@ -57,7 +57,6 @@ function TextSwapButtonText({
         animate={{ y: active ? "-100%" : 0 }}
         transition={{
           duration: 0.7,
-          delay: active ? 0 : 0.2,
           ease: CUSTOM_EASING,
         }}
       >

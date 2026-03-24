@@ -161,7 +161,7 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
         className="relative flex flex-1 items-start justify-start overflow-auto bg-neutral-100"
       >
         <div
-          className="relative h-full bg-white"
+          className="relative h-full overflow-x-hidden bg-white"
           style={{
             width: !measured && frameWidth === 0 ? "100%" : `${displayWidth}px`,
             maxWidth: "100%",
