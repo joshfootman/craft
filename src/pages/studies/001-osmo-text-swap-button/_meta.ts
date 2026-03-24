@@ -1,9 +1,9 @@
 import type { Meta } from "~/types/study";
 
 export const meta = {
-  id: "001-text-swap-button",
-  title: "Text Swap Button",
-  description: "Text swap button animation with conditional icon animation",
+  id: "001-osmo-text-swap-button",
+  title: "Text Swap Menu Button",
+  description: "Text swap menu button animation with conditional icon animation",
   status: "published",
   tags: ["Motion", "Rotation"],
   category: "Osmo Side Navigation",

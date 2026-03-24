@@ -1,9 +1,9 @@
 ---
 import Base from "~/layouts/Base.astro";
 import { meta } from "./_meta.ts";
-import Variants from "./_variants";
+import { Demo } from "./_component.tsx";
 ---
 
 <Base {meta}>
-  <Variants client:load />
+  <Demo client:only="react" />
 </Base>
