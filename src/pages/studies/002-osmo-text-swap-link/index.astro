@@ -1,9 +1,10 @@
 ---
 import Base from "~/layouts/Base.astro";
 import { meta } from "./_meta.ts";
-import Variants from "./_variants.tsx";
+import { Demo } from "./_component";
 ---
 
 <Base {meta}>
-  <Variants client:load />
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <Demo client:only="react" />
 </Base>
