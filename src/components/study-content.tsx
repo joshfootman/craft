@@ -167,7 +167,7 @@ export function StudyContent({ meta, children }: { meta: Meta; children: React.R
             maxWidth: "100%",
           }}
         >
-          <div key={remountKey} className="h-full">
+          <div key={remountKey} className="@container h-full">
             {children}
           </div>
           <div

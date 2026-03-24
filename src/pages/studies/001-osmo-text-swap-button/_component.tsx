@@ -1,3 +1,4 @@
+import { PlusIcon } from "lucide-react";
 import { motion } from "motion/react";
 import React from "react";
 
@@ -94,4 +95,19 @@ function TextSwapButtonIcon({ children, ...props }: React.ComponentProps<typeof 
   );
 }
 
-export { TextSwapButton, TextSwapButtonIcon, TextSwapButtonText };
+export function Demo() {
+  const [isActive, setIsActive] = React.useState(false);
+
+  return (
+    <div className="flex h-full items-center justify-center pb-40">
+      <TextSwapButton active={isActive} onClick={() => setIsActive((curr) => !curr)}>
+        <TextSwapButtonText className="text-6xl">
+          {(inactive) => (inactive ? "Menu" : "Close")}
+        </TextSwapButtonText>
+        <TextSwapButtonIcon>
+          <PlusIcon className="size-20 stroke-[1.5]" />
+        </TextSwapButtonIcon>
+      </TextSwapButton>
+    </div>
+  );
+}
