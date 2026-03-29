@@ -1,12 +1,15 @@
 import { PlusIcon } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import React from "react";
 
 import { cn } from "~/lib/utils";
 
 const CUSTOM_EASING = [0.65, 0.01, 0.05, 0.99] as const;
 
-const Context = React.createContext<{ active: boolean; hover: boolean } | null>(null);
+const Context = React.createContext<{
+  active: boolean;
+  hover: boolean;
+} | null>(null);
 
 function useTextSwapButton() {
   const context = React.useContext(Context);
@@ -48,6 +51,7 @@ function TextSwapButtonText({
   children: (value: boolean) => React.ReactNode;
 }) {
   const { active } = useTextSwapButton();
+  const reducedMotion = useReducedMotion();
 
   return (
     <span className={cn("grid overflow-hidden", className)} {...props}>
@@ -57,7 +61,7 @@ function TextSwapButtonText({
         initial={{ y: 0 }}
         animate={{ y: active ? "-100%" : 0 }}
         transition={{
-          duration: 0.7,
+          duration: reducedMotion ? 0 : 0.7,
           ease: CUSTOM_EASING,
         }}
       >
@@ -69,8 +73,8 @@ function TextSwapButtonText({
         initial={{ y: "100%" }}
         animate={{ y: active ? 0 : "100%" }}
         transition={{
-          duration: 0.7,
-          delay: active ? 0.2 : 0,
+          duration: reducedMotion ? 0 : 0.7,
+          delay: reducedMotion ? 0 : active ? 0.2 : 0,
           ease: CUSTOM_EASING,
         }}
       >
@@ -82,13 +86,18 @@ function TextSwapButtonText({
 
 function TextSwapButtonIcon({ children, ...props }: React.ComponentProps<typeof motion.div>) {
   const { active, hover } = useTextSwapButton();
+  const reducedMotion = useReducedMotion();
 
   return (
     <motion.div
       animate={{ rotate: active ? 315 : 0 }}
-      transition={{ duration: active ? 0.6 : 0.3 }}
+      transition={{ duration: reducedMotion ? 0 : active ? 0.6 : 0.3 }}
     >
-      <motion.div {...props} animate={{ rotate: hover ? 90 : 0 }} transition={{ duration: 0.2 }}>
+      <motion.div
+        {...props}
+        animate={{ rotate: reducedMotion ? 0 : hover ? 90 : 0 }}
+        transition={{ duration: reducedMotion ? 0 : 0.2 }}
+      >
         {children}
       </motion.div>
     </motion.div>

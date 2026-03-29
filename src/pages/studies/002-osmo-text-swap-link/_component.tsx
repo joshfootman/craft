@@ -18,7 +18,7 @@ function TextSwapLinkBackground({
   return (
     <div
       className={cn(
-        "absolute inset-0 origin-[50%_100%] scale-y-0 bg-neutral-800 transition-transform duration-550 ease-[--cubic] group-hover:scale-y-100",
+        "absolute inset-0 origin-[50%_100%] scale-y-0 bg-neutral-800 transition-transform duration-550 ease-[--cubic] group-hover:scale-y-100 motion-reduce:scale-y-100 motion-reduce:opacity-0 motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:group-hover:opacity-100",
         className,
       )}
       {...props}
@@ -36,7 +36,7 @@ function TextSwapLinkAnchor({ children, className, ...props }: React.ComponentPr
       {...props}
     >
       <span className="absolute inset-0 z-1"></span>
-      <span className="inline-block transition-transform duration-550 ease-[--cubic] text-shadow-[0_1em_0] text-shadow-white group-hover:-translate-y-[1em]">
+      <span className="inline-block transition-transform duration-550 ease-[--cubic] text-shadow-[0_1em_0] text-shadow-white group-hover:-translate-y-[1em] motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:text-shadow-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:text-white">
         {children}
       </span>
     </a>
