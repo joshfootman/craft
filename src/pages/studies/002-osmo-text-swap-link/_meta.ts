@@ -5,7 +5,7 @@ export const meta = {
   title: "Text Swap Menu Link",
   description: "Text swap menu link animation with background swap",
   status: "published",
-  tags: ["CSS"],
+  tags: ["CSS", "Text Shadow"],
   category: "Osmo Side Navigation",
   date: "2026-03-24",
   theme: "light",
