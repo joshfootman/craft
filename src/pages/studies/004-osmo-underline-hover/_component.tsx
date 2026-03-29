@@ -8,7 +8,7 @@ function Underline({ className, render, ...props }: useRender.ComponentProps<"bu
     props: mergeProps<"button">(
       {
         className: cn(
-          "relative after:absolute after:bottom-0 after:left-0 after:h-0.25 after:w-full after:origin-[right_center] after:scale-[0_1] after:bg-orange-500 after:transition-transform after:duration-400 after:ease-[--cubic] hover:after:origin-[left_center] hover:after:scale-[1_1] motion-reduce:after:transition-none motion-reduce:after:duration-0",
+          "relative after:absolute after:bottom-0 after:left-0 after:h-0.25 after:w-full after:origin-[right_center] after:scale-[0_1] after:bg-orange-500 after:transition-transform after:duration-400 after:ease-(--cubic-hover) hover:after:origin-[left_center] hover:after:scale-[1_1] focus-visible:after:origin-[left_center] focus-visible:after:scale-[1_1] motion-reduce:after:transition-none motion-reduce:after:duration-0",
           className,
         ),
       },
@@ -26,7 +26,7 @@ export function Demo() {
   return (
     <div
       className="flex h-full flex-col items-center justify-center pb-40"
-      style={{ "--cubic": "cubic-bezier(0.65, 0.05, 0, 1)" } as React.CSSProperties}
+      style={{ "--cubic-hover": "cubic-bezier(0.65, 0.05, 0, 1)" } as React.CSSProperties}
     >
       <div className="flex flex-col gap-6 text-2xl @lg:flex-row">
         {Socials.map((social) => (

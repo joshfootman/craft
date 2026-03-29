@@ -26,26 +26,31 @@ export function Demo() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex p-8">
+    <div className="flex w-full p-8">
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
-        <DrawerTrigger render={<TextSwapButton active={isOpen} className="z-30 ml-auto gap-1" />}>
+        <DrawerTrigger
+          render={<TextSwapButton active={isOpen} className="z-30 ml-auto gap-1 text-[1.125rem]" />}
+        >
           <TextSwapButtonText>{(inactive) => (inactive ? "Menu" : "Close")}</TextSwapButtonText>
           <TextSwapButtonIcon>
             <PlusIcon className="size-5 stroke-[1.5]" />
           </TextSwapButtonIcon>
         </DrawerTrigger>
         <DrawerContent
+          className="[--menu-padding:1em] md:[--menu-padding:2em]"
           initialFocus={false}
           style={
             {
               "--font-bebas": "Bebas Neue",
-              "--cubic": "cubic-bezier(0.65, 0.05, 0, 1)",
+              "--cubic-main": "cubic-bezier(0.65, 0.01, 0.05, 0.99)",
+              "--cubic-hover": "cubic-bezier(0.65, 0.05, 0, 1)",
             } as CSSProperties
           }
         >
           <DrawerMeta title="Menu" description="Navigation and Social links" />
-          <div className="flex h-full flex-col justify-between pt-40 pb-8">
+          <div className="flex h-full flex-col justify-between pt-40 pb-[2em]">
             <motion.div
+              className="w-full"
               initial={shouldReduceMotion ? false : "hidden"}
               animate="visible"
               variants={{
@@ -58,13 +63,10 @@ export function Demo() {
               }}
             >
               {MENU_ITEMS.map((item, i) => (
-                <div key={item} className="overflow-hidden">
+                <div key={item} className="h-[4.5em] overflow-hidden md:h-auto">
                   <RotateUp className="origin-bottom-left">
                     <TextSwapLink>
-                      <TextSwapLinkAnchor
-                        className="font-(family-name:--font-bebas) text-[5.625rem]"
-                        href="#"
-                      >
+                      <TextSwapLinkAnchor className="font-(family-name:--font-bebas)" href="#">
                         {item}
                       </TextSwapLinkAnchor>
                       <TextSwapLinkEyebrow className="font-mono">0{i + 1}</TextSwapLinkEyebrow>
@@ -75,7 +77,7 @@ export function Demo() {
               ))}
             </motion.div>
             <motion.div
-              className="flex flex-col gap-5 pl-8"
+              className="flex flex-col gap-5 pl-(--menu-padding)"
               initial={shouldReduceMotion ? false : "hidden"}
               animate="visible"
               variants={{
@@ -88,9 +90,9 @@ export function Demo() {
               }}
             >
               <FadeUp className="text-sm">Socials</FadeUp>
-              <div className="flex flex-row gap-6 text-lg">
+              <div className="flex flex-wrap gap-[1.5em] text-[1.125rem]">
                 {SOCIALS.map((social) => (
-                  <Underline key={social} render={<a href="#" />} className="overflow-hidden">
+                  <Underline key={social} render={<a href="#" />} className="w-fit overflow-hidden">
                     <FadeUp>{social}</FadeUp>
                   </Underline>
                 ))}

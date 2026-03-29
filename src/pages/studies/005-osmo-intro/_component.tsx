@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import type React from "react";
 import type { CSSProperties } from "react";
 
-const CUSTOM_EASING = [0.65, 0.05, 0, 1] as const;
+const MAIN_EASING = [0.65, 0.01, 0.05, 0.99] as const;
 
 const MENU_ITEMS = ["About Us", "Our Work", "Services", "Blog", "Contact Us"];
 const SOCIALS = ["Instagram", "LinkedIn", "X/Twitter", "Awwwards"];
@@ -20,8 +20,8 @@ function RotateUp({ children, ...props }: React.ComponentProps<typeof motion.div
           y: "0%",
           rotate: 0,
           transition: {
-            duration: 0.8,
-            ease: CUSTOM_EASING,
+            duration: 0.7,
+            ease: MAIN_EASING,
           },
         },
       }}
@@ -44,8 +44,8 @@ function FadeUp({ children, ...props }: React.ComponentProps<typeof motion.div>)
           opacity: 1,
           y: "0%",
           transition: {
-            duration: 0.6,
-            ease: CUSTOM_EASING,
+            duration: 0.7,
+            ease: MAIN_EASING,
           },
         },
       }}
