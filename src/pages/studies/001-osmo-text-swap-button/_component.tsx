@@ -30,7 +30,10 @@ function TextSwapButton({
   return (
     <Context.Provider value={{ active }}>
       <button
-        className={cn("group/text-swap-button flex cursor-pointer flex-row items-center gap-2", className)}
+        className={cn(
+          "group/text-swap-button flex cursor-pointer flex-row items-center gap-2",
+          className,
+        )}
         type={type}
         {...props}
       >
@@ -81,7 +84,11 @@ function TextSwapButtonText({
   );
 }
 
-function TextSwapButtonIcon({ children, className, ...props }: React.ComponentProps<typeof motion.div>) {
+function TextSwapButtonIcon({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<typeof motion.div>) {
   const { active } = useTextSwapButton();
   const reducedMotion = useReducedMotion();
 
