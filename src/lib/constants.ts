@@ -62,6 +62,7 @@ export const STUDY_TAGS = [
   ...STUDY_PATTERN_TAGS,
   ...STUDY_MOTION_TAGS,
   ...STUDY_STACK_TAGS,
+  "Complete",
 ] as const;
 
 export type StudyTag = (typeof STUDY_TAGS)[number];

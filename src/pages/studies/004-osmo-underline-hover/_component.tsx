@@ -18,6 +18,8 @@ function Underline({ className, render, ...props }: useRender.ComponentProps<"bu
   });
 }
 
+export { Underline };
+
 export function Demo() {
   const Socials = ["Instagram", "LinkedIn", "X/Twitter", "Awwwards"];
 

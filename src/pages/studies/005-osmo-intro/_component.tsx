@@ -55,6 +55,8 @@ function FadeUp({ children, ...props }: React.ComponentProps<typeof motion.div>)
   );
 }
 
+export { RotateUp, FadeUp };
+
 export function Demo() {
   const shouldReduceMotion = useReducedMotion();
 
