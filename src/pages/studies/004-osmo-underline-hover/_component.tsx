@@ -26,9 +26,9 @@ export function Demo() {
       className="flex h-full flex-col items-center justify-center pb-40"
       style={{ "--cubic": "cubic-bezier(0.65, 0.05, 0, 1)" } as React.CSSProperties}
     >
-      <div className="flex flex-row gap-6 text-2xl">
+      <div className="flex flex-col gap-6 text-2xl @lg:flex-row">
         {Socials.map((social) => (
-          <Underline key={social} render={<a href="#" />} className="after:h-0.5">
+          <Underline key={social} render={<a href="#" />} className="w-fit after:h-0.5">
             {social}
           </Underline>
         ))}
