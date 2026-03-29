@@ -33,14 +33,14 @@ describe("StudyContent", () => {
   it("renders title and tags in the header", () => {
     const meta = makeMeta({
       title: "Spring List",
-      tags: ["motion", "spring"],
+      tags: ["Motion", "Spring"],
     });
 
     renderStudy(meta);
 
     expect(screen.getByText("Spring List")).toBeInTheDocument();
-    expect(screen.getByText("motion")).toBeInTheDocument();
-    expect(screen.getByText("spring")).toBeInTheDocument();
+    expect(screen.getByText("Motion")).toBeInTheDocument();
+    expect(screen.getByText("Spring")).toBeInTheDocument();
   });
 
   it("title links to the component file in vscode", () => {

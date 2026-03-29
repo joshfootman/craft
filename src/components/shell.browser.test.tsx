@@ -10,7 +10,7 @@ function makeMeta(overrides: Partial<Meta> = {}): Meta {
     title: "Test Study",
     description: "A test study",
     status: "published",
-    tags: ["motion"],
+    tags: ["Motion"],
     category: "test",
     date: "2026-01-01",
     theme: "light",
@@ -24,7 +24,7 @@ const studies: Meta[] = [
   makeMeta({
     id: "second-study",
     title: "Second Study",
-    tags: ["layout"],
+    tags: ["Layout"],
     category: "layout",
   }),
 ];
