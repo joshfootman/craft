@@ -8,7 +8,7 @@ function Underline({ className, render, ...props }: useRender.ComponentProps<"bu
     props: mergeProps<"button">(
       {
         className: cn(
-          "relative after:absolute after:bottom-0 after:left-0 after:h-0.25 after:w-full after:origin-[right_center] after:scale-[0_1] after:bg-orange-500 after:transition-transform after:duration-400 after:ease-[--cubic] hover:after:origin-[left_center] hover:after:scale-[1_1]",
+          "relative after:absolute after:bottom-0 after:left-0 after:h-0.25 after:w-full after:origin-[right_center] after:scale-[0_1] after:bg-orange-500 after:transition-transform after:duration-400 after:ease-[--cubic] hover:after:origin-[left_center] hover:after:scale-[1_1] motion-reduce:after:transition-none motion-reduce:after:duration-0",
           className,
         ),
       },
