@@ -18,7 +18,7 @@ function TextSwapLinkBackground({
   return (
     <div
       className={cn(
-        "absolute inset-0 origin-[50%_100%] scale-y-0 bg-neutral-800 transition-transform duration-550 ease-[cubic-bezier(0.65,0.05,0,1)] group-hover:scale-y-100",
+        "absolute inset-0 origin-[50%_100%] scale-y-0 bg-neutral-800 transition-transform duration-550 ease-[--cubic] group-hover:scale-y-100",
         className,
       )}
       {...props}
@@ -36,7 +36,7 @@ function TextSwapLinkAnchor({ children, className, ...props }: React.ComponentPr
       {...props}
     >
       <span className="absolute inset-0 z-1"></span>
-      <span className="inline-block transition-transform duration-550 ease-[cubic-bezier(0.65,0.05,0,1)] text-shadow-[0_1em_0] text-shadow-white group-hover:-translate-y-[1em]">
+      <span className="inline-block transition-transform duration-550 ease-[--cubic] text-shadow-[0_1em_0] text-shadow-white group-hover:-translate-y-[1em]">
         {children}
       </span>
     </a>
@@ -58,7 +58,15 @@ export function Demo() {
     <div className="flex h-full flex-col items-center justify-center pb-40">
       <div className="w-fit @xl:w-[35em]">
         {MenuItems.map((item, i) => (
-          <TextSwapLink key={item} style={{ "--font-bebas": "Bebas Neue" } as React.CSSProperties}>
+          <TextSwapLink
+            key={item}
+            style={
+              {
+                "--font-bebas": "Bebas Neue",
+                "--cubic": "cubic-bezier(0.65, 0.05, 0, 1)",
+              } as React.CSSProperties
+            }
+          >
             <TextSwapLinkAnchor className="font-(family-name:--font-bebas)" href="#">
               {item}
             </TextSwapLinkAnchor>

@@ -35,15 +35,15 @@ function DrawerContent({
       <div className="group/drawer relative z-20">
         <div
           aria-hidden
-          className="fixed inset-y-0 right-0 w-3/4 rounded-l-xl border-l bg-orange-500 transition-transform duration-550 ease-[cubic-bezier(0.65,0.05,0,1)] group-has-data-ending-style/drawer:translate-x-full group-has-data-starting-style/drawer:translate-x-full sm:max-w-140"
+          className="fixed inset-y-0 right-0 w-3/4 rounded-l-xl border-l bg-orange-500 transition-transform duration-550 ease-[--cubic] group-has-data-ending-style/drawer:translate-x-full group-has-data-starting-style/drawer:translate-x-full sm:max-w-140"
         />
         <div
           aria-hidden
-          className="fixed inset-y-0 right-0 w-3/4 rounded-l-xl border-l bg-white transition-transform delay-100 duration-550 ease-[cubic-bezier(0.65,0.05,0,1)] group-has-data-ending-style/drawer:translate-x-full group-has-data-ending-style/drawer:delay-0 group-has-data-starting-style/drawer:translate-x-full sm:max-w-140"
+          className="fixed inset-y-0 right-0 w-3/4 rounded-l-xl border-l bg-white transition-transform delay-100 duration-550 ease-[--cubic] group-has-data-ending-style/drawer:translate-x-full group-has-data-ending-style/drawer:delay-0 group-has-data-starting-style/drawer:translate-x-full sm:max-w-140"
         />
         <Dialog.Popup
           className={cn(
-            "fixed inset-y-0 right-0 flex w-3/4 flex-col rounded-l-xl border-l bg-neutral-100 transition-transform delay-300 duration-550 ease-[cubic-bezier(0.65,0.05,0,1)] data-ending-style:translate-x-full data-ending-style:delay-0 data-starting-style:translate-x-full sm:max-w-140",
+            "fixed inset-y-0 right-0 flex w-3/4 flex-col rounded-l-xl border-l bg-neutral-100 transition-transform delay-200 duration-550 ease-[--cubic] data-ending-style:translate-x-full data-ending-style:delay-0 data-starting-style:translate-x-full sm:max-w-140",
             className,
           )}
           {...props}
@@ -57,7 +57,10 @@ function DrawerContent({
 
 export function Demo() {
   return (
-    <div className="flex h-full flex-col items-center justify-center pb-40">
+    <div
+      className="flex h-full flex-col items-center justify-center pb-40"
+      style={{ "--cubic": "cubic-bezier(0.65, 0.05, 0, 1)" } as React.CSSProperties}
+    >
       <Drawer>
         <DrawerTrigger render={<Button variant="outline" />}>Menu</DrawerTrigger>
         <DrawerContent>
