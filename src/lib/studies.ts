@@ -27,7 +27,6 @@ export function loadStudies(globResult: Record<string, { meta: Meta }>): Meta[] 
     .map((mod) => mod.meta)
     .sort(
       (a, b) =>
-        b.date.localeCompare(a.date) ||
-        b.id.localeCompare(a.id, undefined, { numeric: true }),
+        b.date.localeCompare(a.date) || b.id.localeCompare(a.id, undefined, { numeric: true }),
     );
 }
