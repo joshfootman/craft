@@ -38,12 +38,21 @@ describe("loadStudies", () => {
     expect(result.map((s) => s.id)).toEqual(["newest", "middle", "oldest"]);
   });
 
+  it("breaks same-day ties by id descending", () => {
+    const study004 = makeMeta({ id: "004-osmo-underline-hover", date: "2026-03-29" });
+    const study005 = makeMeta({ id: "005-osmo-intro", date: "2026-03-29" });
+
+    const result = loadStudies(makeGlobResult([study004, study005]));
+
+    expect(result.map((s) => s.id)).toEqual(["005-osmo-intro", "004-osmo-underline-hover"]);
+  });
+
   it("preserves all meta fields", () => {
     const study = makeMeta({
       id: "full",
       title: "Full Study",
       description: "All fields populated",
-      tags: ["motion", "spring"],
+      tags: ["Motion", "Spring"],
       category: "motion",
       inspiration: ["https://example.com"],
       theme: "dark",

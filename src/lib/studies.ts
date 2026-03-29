@@ -25,5 +25,8 @@ export function groupStudies(studies: Meta[]): GroupedStudies {
 export function loadStudies(globResult: Record<string, { meta: Meta }>): Meta[] {
   return Object.values(globResult)
     .map((mod) => mod.meta)
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort(
+      (a, b) =>
+        b.date.localeCompare(a.date) || b.id.localeCompare(a.id, undefined, { numeric: true }),
+    );
 }
