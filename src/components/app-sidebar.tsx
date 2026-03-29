@@ -1,3 +1,5 @@
+import { Logo } from "~/assets/logo";
+import { Badge } from "~/components/ui/badge";
 import {
   Sidebar,
   SidebarContent,
@@ -10,12 +12,9 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "~/components/ui/sidebar";
-import { SearchIcon } from "lucide-react";
-import { Kbd } from "~/components/ui/kbd";
-import { Badge } from "~/components/ui/badge";
 import { groupStudies } from "~/lib/studies";
 import type { Meta } from "~/types/study";
-import { Logo } from "~/assets/logo";
+import { CommandMenu } from "./command-menu";
 
 function StudyList({ studies, activeStudyId }: { studies: Meta[]; activeStudyId: string }) {
   return (
@@ -52,15 +51,7 @@ function StudyList({ studies, activeStudyId }: { studies: Meta[]; activeStudyId:
   );
 }
 
-export function AppSidebar({
-  studies,
-  activeStudyId,
-  onSearchClick,
-}: {
-  studies: Meta[];
-  activeStudyId: string;
-  onSearchClick?: () => void;
-}) {
+export function AppSidebar({ studies, activeStudyId }: { studies: Meta[]; activeStudyId: string }) {
   const { breakdowns, standalone } = groupStudies(studies);
 
   return (
@@ -71,16 +62,7 @@ export function AppSidebar({
             <Logo />
           </a>
         </div>
-        <button
-          type="button"
-          onClick={onSearchClick}
-          className="flex h-8 w-full items-center gap-2 rounded-md bg-background px-3 text-sm text-muted-foreground shadow-none ring-1 ring-border"
-          aria-label="Search studies"
-        >
-          <SearchIcon className="size-4" />
-          <span>Search...</span>
-          <Kbd className="ml-auto">⌘K</Kbd>
-        </button>
+        <CommandMenu studies={studies} />
       </SidebarHeader>
       <SidebarContent>
         {Array.from(breakdowns.entries()).map(([category, categoryStudies]) => (

@@ -15,7 +15,6 @@ const globResult = import.meta.glob<{ meta: Meta }>(
   { eager: true },
 );
 const studies = loadStudies(globResult);
-const activeStudyId = meta.id;
 ---
 
 <html lang="en">
@@ -31,8 +30,7 @@ const activeStudyId = meta.id;
   <body>
     <Shell
       studies={studies}
-      activeStudyId={activeStudyId}
-      meta={meta}
+      active={meta}
       client:load
     >
       <slot />
