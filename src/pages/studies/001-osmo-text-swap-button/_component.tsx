@@ -104,6 +104,8 @@ function TextSwapButtonIcon({ children, ...props }: React.ComponentProps<typeof 
   );
 }
 
+export { TextSwapButton, TextSwapButtonText, TextSwapButtonIcon };
+
 export function Demo() {
   const [isActive, setIsActive] = React.useState(false);
 

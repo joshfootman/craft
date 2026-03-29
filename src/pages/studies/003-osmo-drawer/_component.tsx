@@ -43,7 +43,7 @@ function DrawerContent({
         />
         <Dialog.Popup
           className={cn(
-            "fixed inset-y-0 right-0 flex w-3/4 flex-col rounded-l-xl border-l bg-neutral-100 transition-transform delay-200 duration-550 ease-[--cubic] data-ending-style:translate-x-full data-ending-style:delay-0 data-starting-style:translate-x-full motion-reduce:transition-none motion-reduce:delay-0 motion-reduce:duration-0 sm:max-w-140",
+            "fixed inset-y-0 right-0 flex w-3/4 flex-col rounded-l-xl border-l bg-neutral-200 transition-transform delay-200 duration-550 ease-[--cubic] data-ending-style:translate-x-full data-ending-style:delay-0 data-starting-style:translate-x-full motion-reduce:transition-none motion-reduce:delay-0 motion-reduce:duration-0 sm:max-w-140",
             className,
           )}
           {...props}
@@ -54,6 +54,8 @@ function DrawerContent({
     </Dialog.Portal>
   );
 }
+
+export { Drawer, DrawerTrigger, DrawerContent, DrawerMeta };
 
 export function Demo() {
   return (

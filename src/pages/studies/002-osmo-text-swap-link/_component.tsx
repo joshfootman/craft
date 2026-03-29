@@ -51,6 +51,8 @@ function TextSwapLinkEyebrow({ children, className, ...props }: React.ComponentP
   );
 }
 
+export { TextSwapLink, TextSwapLinkAnchor, TextSwapLinkEyebrow, TextSwapLinkBackground };
+
 export function Demo() {
   const MenuItems = ["About Us", "Our Work", "Services", "Blog", "Contact Us"];
 
