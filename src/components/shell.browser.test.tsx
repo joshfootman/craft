@@ -24,7 +24,7 @@ const studies: Meta[] = [
   makeMeta({
     id: "second-study",
     title: "Second Study",
-    tags: ["Layout"],
+    tags: ["CSS"],
     category: "layout",
   }),
 ];
@@ -37,7 +37,7 @@ describe("Shell (browser)", () => {
 
   it("cmd+b toggles sidebar collapsed/expanded", async () => {
     const result = await render(
-      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
+      <Shell studies={studies} active={studies[0]}>
         <div>content</div>
       </Shell>,
     );
@@ -58,7 +58,7 @@ describe("Shell (browser)", () => {
 
   it("cmd+k opens the command palette", async () => {
     await render(
-      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
+      <Shell studies={studies} active={studies[0]}>
         <div>content</div>
       </Shell>,
     );
@@ -73,7 +73,7 @@ describe("Shell (browser)", () => {
 
   it("esc closes the command palette", async () => {
     await render(
-      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
+      <Shell studies={studies} active={studies[0]}>
         <div>content</div>
       </Shell>,
     );
@@ -87,12 +87,12 @@ describe("Shell (browser)", () => {
 
   it("sidebar search button opens the command palette", async () => {
     await render(
-      <Shell studies={studies} activeStudyId="test-study" meta={studies[0]}>
+      <Shell studies={studies} active={studies[0]}>
         <div>content</div>
       </Shell>,
     );
 
-    const searchBtn = page.getByLabelText("Search studies");
+    const searchBtn = page.getByRole("button", { name: /search/i });
     await searchBtn.click();
 
     const dialog = page.getByRole("dialog");
