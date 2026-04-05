@@ -45,7 +45,7 @@ function TextSwapLinkAnchor({ children, className, ...props }: React.ComponentPr
 
 function TextSwapLinkEyebrow({ children, className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("z-1 text-orange-500", className)} {...props}>
+    <div className={cn("pointer-events-none z-1 text-orange-500", className)} {...props}>
       {children}
     </div>
   );
