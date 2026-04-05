@@ -1,257 +1,92 @@
-# Craft — Scope & Requirements
+# Craft — Scope
 
-## Overview
+## Purpose
 
-A personal interaction laboratory. A collection of isolated UI studies, each one a deliberate exploration of motion, design, or 3D. Built to develop craft, document growth, and eventually serve as a living portfolio for design engineering roles.
+Craft is a personal interaction lab.
 
-Not a product. Not an app. A series of moments.
+Its job is simple: give me a place to study, build, and compare UI ideas so I become a better design engineer. This is not a product, not a startup, and not an app with a business model. It is a working environment for deliberate practice.
 
----
+Agents should treat the project that way. The point is to make it easy to create, refine, and review small front-end studies with strong attention to motion, typography, layout, interaction detail, and overall feel.
 
-## Tech Stack
+## What This App Is
 
-- **Framework**: Astro (latest)
-- **Component layer**: React (via `@astrojs/react`)
-- **Styling**: Tailwind CSS (latest)
-- **Shell UI**: shadcn (sidebar, command palette, header) / Base UI
-- **Animation**: Motion (motion.dev)
-- **3D**: Three.js / React Three Fiber (`@react-three/fiber`, `@react-three/drei`)
-- **Language**: TypeScript throughout
+Craft is a collection of isolated UI studies presented inside a lightweight browsing shell.
 
----
+Each study should feel like a focused experiment or reference build:
 
-## Core Architecture
+- a motion study
+- a layout or navigation study
+- a component recreation
+- a typography or interaction exercise
+- a 3D or visual exploration when useful
 
-### File-based study registration
+The app exists to support those studies, not to compete with them. The surrounding interface should stay quiet, useful, and secondary.
 
-Each study lives in its own folder under `src/studies/`. Dropping a new folder automatically registers it in the sidebar. There is no central config or registry to maintain.
+## Core Intent
 
-```
-src/
-  studies/
-    001-spring-list/
-      index.astro       ← Astro route wrapper
-      SpringList.tsx    ← React study component
-      meta.ts           ← Exported metadata
-  components/
-    Sidebar.astro
-    StudyShell.astro    ← Layout: sidebar + content
-  layouts/
-    Base.astro
-```
+The project should help with three things:
 
-### Study metadata
+- capturing UI ideas worth studying
+- implementing them as isolated, revisitable studies
+- browsing the collection in a way that makes patterns, progress, and craft legible over time
 
-Every study exports a typed metadata object from `meta.ts`. This is the single source of truth for the sidebar and any future filtering.
+The collection should gradually become both a practice ground and a record of growth.
 
-```ts
-// src/studies/001-spring-list/meta.ts
-import type { Meta } from "~/types/study";
+## Product Shape
 
-export const meta = {
-  id: "001-spring-list",
-  title: "Spring List Reveal",
-  description: "Staggered list entry using spring physics over linear easing.",
-  status: "published",
-  techniques: ["motion.dev", "spring physics"],
-  tags: ["motion", "list", "spring"],
-  category: "motion",
-  inspiration: ["https://..."],
-  date: "2026-03-21",
-  theme: "dark",
-  viewport: "desktop",
-} satisfies Meta;
-```
+At a high level, the app should provide:
 
-`status` is included in the metadata type for future use (draft/published filtering when the site goes public) but is not used for filtering in the initial build. All studies are visible.
+- a way to browse all studies
+- a way to open a single study directly
+- enough metadata to organize and search the collection
+- a lightweight shell around each study for navigation and framing
 
-### Glob-based sidebar population
+The exact implementation can change. The important thing is the shape of the experience, not the current file structure or framework details.
 
-The sidebar uses `import.meta.glob('/src/studies/**/meta.ts', { eager: true })` to collect all study metadata at build time. Use the absolute glob path (prefixed with `/src/`) to avoid ambiguity regardless of where the importing file lives. No imports to add, no arrays to update. Sort by date descending.
+## Study Principles
 
-### Study route wrapper
+Each study should be:
 
-Each `index.astro` follows the same minimal pattern:
+- isolated from the others
+- easy to add without touching many unrelated files
+- self-contained in its behavior and presentation
+- viewable on its own
+- identifiable by a small set of descriptive metadata
 
-```astro
----
-import StudyShell from '~/components/StudyShell.astro'
-import { meta } from './meta.ts'
-import SpringList from './SpringList.tsx'
----
+Each study is a deliberate exercise, not filler content. Prefer fewer stronger studies over a large pile of shallow ones.
 
-<StudyShell {meta}>
-  <SpringList client:load />
-</StudyShell>
-```
+## Shell Principles
 
-The React component itself has no awareness of routing or layout — it's just a component.
+The shell should help me inspect and navigate studies without becoming the main event.
 
----
+The shell should generally provide:
 
-## Layout & UI
+- navigation between studies
+- clear labeling of the active study
+- basic search or discovery support
+- responsive framing so studies can be inspected in different viewport contexts
+- attribution or inspiration links when relevant
 
-### Shell
+The shell should remain visually restrained. It should support the work, not decorate it.
 
-Two-panel layout. Sidebar left, study content right. The sidebar is the only persistent UI element across all studies.
+## Constraints
 
-- Sidebar width: fixed, approximately 260px
-- Content area: fills remaining viewport width and full height
-- No global header, no footer — the only persistent chrome outside the sidebar is the per-study header bar inside the content area
+- minimal chrome around the studies
+- no unnecessary product features
+- no backend dependency unless a study truly needs one
+- no social layer, auth, accounts, or content system as part of the core app
+- no complexity added just to make the app feel more like a startup product
 
-### Sidebar
+If a decision makes the app better for practicing UI craft, it is probably in scope. If it makes the app feel more like generic software product scaffolding, it is probably out of scope.
 
-- Built using shadcn sidebar component (responsive out of the box)
-- Lists all studies, sorted by date (newest first)
-- Each item shows: title, short description, and tags (truncated — tags are rendered inline and clipped based on available sidebar width, no fixed count limit)
-- Studies are grouped by `category`, each group rendered under a simple section header
-- Active study is visually highlighted
-- Collapsible — a toggle button collapses it to icon/rail width, giving the study full bleed. Keyboard shortcut: `cmd+b` / `ctrl+b`
-- Sidebar state (open/collapsed) persists in localStorage
+## Guidance For Agents
 
-### Study shell
+When working in this repo:
 
-When a study is active, the right panel is split into two vertical regions:
+- optimize for clarity, speed of experimentation, and quality of interaction work
+- preserve the idea that studies are the primary artifact
+- prefer solutions that make adding and evolving studies easier
+- avoid coupling the project too tightly to temporary implementation details
+- avoid adding heavyweight product features unless explicitly asked
 
-1. **Header bar** — a minimal fixed-height bar at the top of the content area showing the study title and all tags in full. This is the only persistent chrome in the content area. It should be slim and typographically simple — not a page header, just a label strip.
-2. **Study area** — fills the remaining height below the header bar. The study component renders here with no imposed padding. Studies manage their own internal spacing and layout.
-
-A small fixed button sits in the bottom-right corner of the study area. It is only rendered if the study has one or more `inspiration` URLs. Clicking it opens a popover listing the inspiration sources as linked URLs — similar to the acknowledgements overlay in Google Maps. The button should be minimal and unobtrusive, it should not compete with the study itself. This serves as citation — tracking what inspired or was referenced when building each study.
-
-### Viewport framing
-
-The shell reads `viewport` from the study meta and displays a responsive preview toolbar (inspired by the shadcn blocks preview — desktop/tablet/mobile toggle buttons). The content area resizes to match the selected device width. Device widths are abstracted into constants for easy tweaking.
-
-- `desktop` — default view, content area fills all available space
-- `mobile` — default view starts at mobile width, user can toggle between sizes
-- `any` — default view fills all available space, user can toggle between sizes
-
-The `data-theme` attribute is applied to the content area wrapper based on the `theme` field, so Tailwind's dark mode variant and any shell chrome (e.g. the popover) can adapt.
-
-### Homepage
-
-Deferred — not in scope for initial build. The `/` route can redirect to the first study for now.
-
----
-
-## Routing
-
-- Each study is accessible at `/studies/[id]` — e.g. `/studies/001-spring-list`
-- Direct links must work — navigating to a study URL loads that study directly
-- The sidebar highlights the correct active item based on current route
-
----
-
-## Command Search
-
-A `cmd+k` / `ctrl+k` keyboard shortcut opens a command palette overlay. This is the primary search and navigation mechanism across studies.
-
-### Behaviour
-
-- Opens as a floating overlay, centered, above all content
-- Dismisses on `esc`, on backdrop click, or on selection
-- Autofocuses the search input on open
-- Searches across study `title`, `tags`, and `techniques` in real time as the user types
-- Results show study title and tags, clicking navigates to that study and closes the palette
-- If no results match, show a minimal empty state
-
-### Tags
-
-Tags are a free-form string array on each study's metadata. They are distinct from `techniques` — techniques describe the tooling used, tags describe the concept or interaction type. Examples: `motion`, `3d`, `scroll`, `gesture`, `spring`, `typography`, `game`, `data`.
-
-Tags appear in the sidebar under each study item and are also searchable via the command palette.
-
-### Implementation notes
-
-- Use shadcn's command component (built on cmdk) — replaceable with a custom implementation later
-- The palette should be built as a React component rendered at the root layout level
-- Study list for search is passed in at build time via the same glob that populates the sidebar — no runtime fetch
-- Keyboard navigation through results (arrow keys + enter) is required
-
----
-
-## Study Component Contract
-
-A study component should:
-
-- Be a default React export
-- Manage its own internal state and layout
-- Fill the space it's given (avoid fixed pixel dimensions that break on different viewport sizes)
-- Be self-contained — no shared state outside the component
-
-A study component should not:
-
-- Know about routing
-- Import anything from the sidebar or shell
-- Have a title, description, or tags rendered inside it — title and full tags live in the header bar, description lives in the sidebar
-
----
-
-## Metadata Type
-
-Define a shared TypeScript type for study metadata. Use this across the glob import and the shell component.
-
-```ts
-// src/types/study.ts
-export type Status = "draft" | "published";
-export type Theme = "dark" | "light" | "any";
-export type Viewport = "mobile" | "desktop" | "any";
-
-export type Meta = {
-  id: string;
-  title: string;
-  description: string;
-  status: Status;
-  techniques: string[];
-  tags: string[];
-  category: string;
-  inspiration?: string[];
-  date: string; // ISO 8601 e.g. '2026-03-21'
-  theme: Theme;
-  viewport: Viewport;
-};
-```
-
----
-
-## Design Constraints
-
-- **Minimal chrome.** The UI surrounding studies should recede completely. No gradients, no decorative elements in the shell itself — that energy belongs to the studies.
-
----
-
-## Astro Configuration
-
-`astro.config.mjs` should be configured as follows:
-
-- `output: 'static'`
-- React integration enabled via `@astrojs/react`
-- Tailwind v4 configured via the Vite plugin (`@tailwindcss/vite`) — do not use `@astrojs/tailwind`, that package targets v3
-- No SSR, no server endpoints — this is a fully static site
-
----
-
-## Placeholder Study
-
-Scaffold one complete placeholder study as part of the initial build — `001-placeholder` — so the full pipeline can be verified end to end: glob picks it up, sidebar renders it, route resolves, shell applies theme and viewport correctly. The component itself can be a single centred text element.
-
----
-
-## Developer Experience Requirements
-
-- Adding a new study requires creating one folder with three files (`index.astro`, `meta.ts`, `YourComponent.tsx`) and nothing else
-- TypeScript errors on malformed metadata (enforced via the `Meta` type)
-- Hot reload works on study components as expected via Vite
-- `~/` path alias configured in `tsconfig.json` pointing to `src/` — use this for all internal imports
-
----
-
-## Out of Scope (for now)
-
-- Homepage / study grid overview
-- Comments or social features
-- Auth of any kind
-- Any backend
-- Draft/published filtering (all studies visible until deployment is needed)
-- Deployment (local development only for now)
-- Dark/light toggle
+When unsure, bias toward decisions that make Craft a better personal lab for studying interface design and front-end execution.
