@@ -28,7 +28,7 @@ function StudyList({ studies, activeStudyId }: { studies: Meta[]; activeStudyId:
           >
             <div className="flex min-w-0 flex-col gap-0.5">
               <span className="truncate text-sm font-medium">{study.title}</span>
-              <span className="line-clamp-2 text-xs text-muted-foreground">
+              <span className="line-clamp-2 min-h-8 text-xs leading-4 text-muted-foreground">
                 {study.description}
               </span>
               {study.tags.length > 0 && (
