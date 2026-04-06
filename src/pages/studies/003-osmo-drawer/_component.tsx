@@ -31,19 +31,19 @@ function DrawerContent({
 }: React.ComponentProps<typeof Dialog.Popup>) {
   return (
     <Dialog.Portal>
-      <Dialog.Backdrop className="fixed inset-0 z-10 min-h-dvh bg-black opacity-20 transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 supports-[-webkit-touch-callout:none]:absolute motion-reduce:transition-none motion-reduce:duration-0 dark:opacity-70" />
+      <Dialog.Backdrop className="fixed inset-0 z-10 min-h-dvh bg-[#13131366] transition-opacity duration-700 ease-(--cubic-main) data-ending-style:opacity-0 data-starting-style:opacity-0 supports-[-webkit-touch-callout:none]:absolute motion-reduce:transition-none motion-reduce:duration-0" />
       <div className="group/drawer relative z-20">
         <div
           aria-hidden
-          className="fixed inset-y-0 right-0 w-3/4 rounded-l-xl border-l bg-orange-500 transition-transform duration-550 ease-[--cubic] group-has-data-ending-style/drawer:translate-x-full group-has-data-starting-style/drawer:translate-x-full motion-reduce:transition-none motion-reduce:duration-0 sm:max-w-140"
+          className="fixed inset-y-0 right-0 w-full rounded-none border-l bg-orange-500 transition-transform duration-575 ease-(--cubic-main) will-change-transform group-has-data-ending-style/drawer:translate-x-[120%] group-has-data-starting-style/drawer:translate-x-[101%] motion-reduce:transition-none motion-reduce:duration-0 md:w-[35em] md:rounded-l-[1.25em]"
         />
         <div
           aria-hidden
-          className="fixed inset-y-0 right-0 w-3/4 rounded-l-xl border-l bg-white transition-transform delay-100 duration-550 ease-[--cubic] group-has-data-ending-style/drawer:translate-x-full group-has-data-ending-style/drawer:delay-0 group-has-data-starting-style/drawer:translate-x-full motion-reduce:transition-none motion-reduce:delay-0 motion-reduce:duration-0 sm:max-w-140"
+          className="fixed inset-y-0 right-0 w-full rounded-none border-l bg-white transition-transform delay-[120ms] duration-575 ease-(--cubic-main) will-change-transform group-has-data-ending-style/drawer:translate-x-[120%] group-has-data-ending-style/drawer:delay-0 group-has-data-starting-style/drawer:translate-x-[101%] motion-reduce:transition-none motion-reduce:delay-0 motion-reduce:duration-0 md:w-[35em] md:rounded-l-[1.25em]"
         />
         <Dialog.Popup
           className={cn(
-            "fixed inset-y-0 right-0 flex w-3/4 flex-col rounded-l-xl border-l bg-neutral-200 transition-transform delay-200 duration-550 ease-[--cubic] data-ending-style:translate-x-full data-ending-style:delay-0 data-starting-style:translate-x-full motion-reduce:transition-none motion-reduce:delay-0 motion-reduce:duration-0 sm:max-w-140",
+            "fixed inset-y-0 right-0 flex w-full flex-col overflow-y-auto rounded-none border-l bg-neutral-200 transition-transform delay-[240ms] duration-575 ease-(--cubic-main) will-change-transform data-ending-style:translate-x-[120%] data-ending-style:delay-0 data-starting-style:translate-x-[101%] motion-reduce:transition-none motion-reduce:delay-0 motion-reduce:duration-0 md:w-[35em] md:rounded-l-[1.25em]",
             className,
           )}
           {...props}
@@ -61,7 +61,7 @@ export function Demo() {
   return (
     <div
       className="flex h-full flex-col items-center justify-center pb-40"
-      style={{ "--cubic": "cubic-bezier(0.65, 0.05, 0, 1)" } as React.CSSProperties}
+      style={{ "--cubic-main": "cubic-bezier(0.65, 0.01, 0.05, 0.99)" } as React.CSSProperties}
     >
       <Drawer>
         <DrawerTrigger render={<Button variant="outline" />}>Menu</DrawerTrigger>

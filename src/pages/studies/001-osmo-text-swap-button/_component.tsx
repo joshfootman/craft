@@ -4,11 +4,10 @@ import React from "react";
 
 import { cn } from "~/lib/utils";
 
-const CUSTOM_EASING = [0.65, 0.01, 0.05, 0.99] as const;
+const MAIN_EASING = [0.65, 0.01, 0.05, 0.99] as const;
 
 const Context = React.createContext<{
   active: boolean;
-  hover: boolean;
 } | null>(null);
 
 function useTextSwapButton() {
@@ -25,16 +24,17 @@ function TextSwapButton({
   children,
   className,
   active,
+  type = "button",
   ...props
 }: React.ComponentProps<"button"> & { active: boolean }) {
-  const [hover, setHover] = React.useState(false);
-
   return (
-    <Context.Provider value={{ active, hover }}>
+    <Context.Provider value={{ active }}>
       <button
-        className={cn("flex cursor-pointer flex-row items-center gap-2", className)}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
+        className={cn(
+          "group/text-swap-button flex cursor-pointer flex-row items-center gap-2",
+          className,
+        )}
+        type={type}
         {...props}
       >
         {children}
@@ -62,7 +62,7 @@ function TextSwapButtonText({
         animate={{ y: active ? "-100%" : 0 }}
         transition={{
           duration: reducedMotion ? 0 : 0.7,
-          ease: CUSTOM_EASING,
+          ease: MAIN_EASING,
         }}
       >
         {children(true)}
@@ -75,7 +75,7 @@ function TextSwapButtonText({
         transition={{
           duration: reducedMotion ? 0 : 0.7,
           delay: reducedMotion ? 0 : active ? 0.2 : 0,
-          ease: CUSTOM_EASING,
+          ease: MAIN_EASING,
         }}
       >
         {children(false)}
@@ -84,19 +84,28 @@ function TextSwapButtonText({
   );
 }
 
-function TextSwapButtonIcon({ children, ...props }: React.ComponentProps<typeof motion.div>) {
-  const { active, hover } = useTextSwapButton();
+function TextSwapButtonIcon({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<typeof motion.div>) {
+  const { active } = useTextSwapButton();
   const reducedMotion = useReducedMotion();
 
   return (
     <motion.div
       animate={{ rotate: active ? 315 : 0 }}
-      transition={{ duration: reducedMotion ? 0 : active ? 0.6 : 0.3 }}
+      transition={{
+        duration: reducedMotion ? 0 : 0.7,
+        ease: MAIN_EASING,
+      }}
     >
       <motion.div
         {...props}
-        animate={{ rotate: reducedMotion ? 0 : hover ? 90 : 0 }}
-        transition={{ duration: reducedMotion ? 0 : 0.2 }}
+        className={cn(
+          "transition-transform duration-400 ease-[cubic-bezier(0.65,0.05,0,1)] group-hover/text-swap-button:rotate-90 motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:group-hover/text-swap-button:rotate-0",
+          className,
+        )}
       >
         {children}
       </motion.div>
