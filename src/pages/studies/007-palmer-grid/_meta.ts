@@ -9,6 +9,6 @@ export const meta = {
   category: "Palmer Grid",
   date: "2026-04-01",
   theme: "light",
-  viewport: "desktop",
+  viewport: "any",
   inspiration: ["https://tympanus.net/Tutorials/PalmerDraggableGrid/"],
 } satisfies Meta;
