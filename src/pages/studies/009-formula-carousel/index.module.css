@@ -1,0 +1,34 @@
+.carousel {
+  animation: spin 48s linear infinite;
+}
+
+.counterRotate {
+  animation: counter-spin 48s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter-spin {
+  from {
+    transform: rotate(var(--counter-rotation-start, 0deg));
+  }
+
+  to {
+    transform: rotate(calc(var(--counter-rotation-start, 0deg) - 360deg));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel,
+  .counterRotate {
+    animation: none;
+  }
+}

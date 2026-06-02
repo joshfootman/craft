@@ -1,0 +1,9 @@
+---
+import Base from "~/layouts/Base.astro"
+import { Demo } from "./_component.tsx"
+import { meta } from "./_meta.ts"
+---
+
+<Base {meta}>
+  <Demo client:only="react" />
+</Base>

@@ -1,13 +1,13 @@
 import type { Meta } from "~/types/study";
 
 export const meta = {
-  id: "008-formula-navbar",
-  title: "Pill navbar",
-  description: "Pill navbar with expandable menu drawer",
+  id: "009-formula-carousel",
+  title: "Circular Carousel",
+  description: "Circular carousel with spin animation",
   status: "published",
-  tags: ["GSAP", "Nav"],
+  tags: ["GSAP", "Carousel"],
   category: "Formula.ai",
-  date: "2026-06-01",
+  date: "2026-06-02",
   theme: "light",
   viewport: "any",
   inspiration: ["https://fourmula.ai/"],
