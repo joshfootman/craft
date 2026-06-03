@@ -3,8 +3,7 @@ import type { Meta } from "~/types/study";
 export const meta = {
   id: "010-formula-falling-pages",
   title: "Falling pages",
-  description:
-    "Fourmula.ai's stacked 'list' section where cards fall",
+  description: "Fourmula.ai's stacked 'list' section where cards fall",
   status: "published",
   tags: ["GSAP", "ScrollTrigger", "Transform3D"],
   category: "Formula.ai",
