@@ -5,7 +5,7 @@ export const meta = {
   title: "Circular Carousel",
   description: "Circular carousel with spin animation",
   status: "published",
-  tags: ["GSAP", "Carousel"],
+  tags: ["GSAP", "CSS", "Carousel"],
   category: "Formula.ai",
   date: "2026-06-02",
   theme: "light",

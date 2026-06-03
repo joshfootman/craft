@@ -46,6 +46,8 @@ export const STUDY_MOTION_TAGS = [
   "Mask",
   "Split",
   "Underline",
+  "ScrollTrigger",
+  "Transform3D"
 ] as const;
 
 export const STUDY_STACK_TAGS = [
