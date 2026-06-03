@@ -1,0 +1,10 @@
+---
+import Base from "~/layouts/Base.astro"
+import { Demo } from "./_component.tsx"
+import { meta } from "./_meta.ts"
+---
+
+<Base {meta}>
+  <link slot="head" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <Demo client:only="react" />
+</Base>
