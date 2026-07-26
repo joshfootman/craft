@@ -1,8 +1,6 @@
 import { gsap } from "gsap";
 import React from "react";
 
-import { cn } from "~/lib/utils";
-
 import styles from "./index.module.css";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -138,7 +136,7 @@ const ElasticWordReveal = React.forwardRef<ElasticWordRevealHandle, ElasticWordR
         {...props}
         ref={rootRef as React.Ref<never>}
         aria-label={props["aria-label"] ?? children}
-        className={cn(styles.root, className)}
+        className={[styles.root, className].filter(Boolean).join(" ")}
       >
         <span aria-hidden="true">
           {parts.map((part, index) =>
