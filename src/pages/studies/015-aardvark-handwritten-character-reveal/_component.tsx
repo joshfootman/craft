@@ -100,7 +100,7 @@ export function Demo() {
     <div className="grid h-full min-h-full place-items-center overflow-hidden px-6 py-12">
       <HandwrittenCharacterReveal
         as="p"
-        className="max-w-4xl text-center font-['Caveat',cursive] text-[clamp(3.5rem,8vw,7.5rem)] leading-[0.82] font-bold tracking-[-0.025em] text-[#111]"
+        className="max-w-4xl pb-20 text-center font-[family-name:'Caveat',cursive] text-[clamp(3.5rem,8vw,7.5rem)] leading-[0.82] font-bold tracking-[-0.025em] text-[#111]"
       >
         Shipping to the USA and Canada
       </HandwrittenCharacterReveal>

@@ -164,7 +164,7 @@ export function Demo() {
     <div className="grid h-full min-h-full place-items-center overflow-hidden p-[clamp(1.5rem,5vw,5rem)]">
       <ElasticWordReveal
         as="h1"
-        className="max-w-[11ch] pb-20 text-center font-['Archivo',Arial,sans-serif] text-[clamp(3.5rem,10vw,9rem)] leading-[0.82] font-bold tracking-[-0.065em] text-balance text-[#111]"
+        className="max-w-[11ch] pb-20 text-center font-[family-name:'Archivo',Arial,sans-serif] text-[clamp(3.5rem,10vw,9rem)] leading-[0.82] font-bold tracking-[-0.065em] text-balance text-[#111]"
       >
         Your next great read is waiting
       </ElasticWordReveal>
