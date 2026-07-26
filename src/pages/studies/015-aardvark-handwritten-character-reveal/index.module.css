@@ -1,0 +1,8 @@
+.root {
+  overflow: visible;
+}
+
+.word,
+.character {
+  display: inline-block;
+}
