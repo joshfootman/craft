@@ -1,0 +1,15 @@
+.root {
+  overflow: visible;
+}
+
+.word {
+  display: inline-block;
+  transform-origin: top left;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    will-change: auto;
+  }
+}
