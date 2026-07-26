@@ -1,8 +1,6 @@
 import { gsap } from "gsap";
 import React from "react";
 
-import { cn } from "~/lib/utils";
-
 import styles from "./index.module.css";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -138,7 +136,7 @@ const ElasticWordReveal = React.forwardRef<ElasticWordRevealHandle, ElasticWordR
         {...props}
         ref={rootRef as React.Ref<never>}
         aria-label={props["aria-label"] ?? children}
-        className={cn(styles.root, className)}
+        className={[styles.root, className].filter(Boolean).join(" ")}
       >
         <span aria-hidden="true">
           {parts.map((part, index) =>
@@ -164,7 +162,7 @@ export function Demo() {
     <div className="grid h-full min-h-full place-items-center overflow-hidden p-[clamp(1.5rem,5vw,5rem)]">
       <ElasticWordReveal
         as="h1"
-        className="max-w-[11ch] pb-20 text-center font-[family-name:'Archivo',Arial,sans-serif] text-[clamp(3.5rem,10vw,9rem)] leading-[0.82] font-bold tracking-[-0.065em] text-balance text-[#111]"
+        className="max-w-[11ch] pb-20 text-center font-['Archivo',Arial,sans-serif] text-[clamp(3.5rem,10vw,9rem)] leading-[0.82] font-bold tracking-[-0.065em] text-balance text-[#111]"
       >
         Your next great read is waiting
       </ElasticWordReveal>
