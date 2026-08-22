@@ -77,12 +77,7 @@ function createSeededRandom(seed: number) {
   };
 }
 
-function ReactiveCard({
-  children,
-  className,
-  wrapperClassName,
-  ...props
-}: ReactiveCardProps) {
+function ReactiveCard({ children, className, wrapperClassName, ...props }: ReactiveCardProps) {
   return (
     <div
       className={[styles.item, wrapperClassName].filter(Boolean).join(" ")}
@@ -122,19 +117,11 @@ function ReactiveCardStackRoot({
     const root = rootRef.current;
     if (!root) return;
 
-    const items = gsap.utils.toArray<HTMLElement>(
-      "[data-reactive-card-item]",
-      root,
-    );
-    const cardTargets = gsap.utils.toArray<HTMLElement>(
-      "[data-reactive-card-target]",
-      root,
-    );
+    const items = gsap.utils.toArray<HTMLElement>("[data-reactive-card-item]", root);
+    const cardTargets = gsap.utils.toArray<HTMLElement>("[data-reactive-card-target]", root);
     if (disabled || items.length === 0) return;
 
-    const randomByIndex = items.map((_, index) =>
-      createSeededRandom(seed + index),
-    );
+    const randomByIndex = items.map((_, index) => createSeededRandom(seed + index));
     const media = gsap.matchMedia();
 
     const randomRestTransform = (index: number, rotationRange = 15) => {
@@ -221,10 +208,7 @@ function ReactiveCardStackRoot({
 
         cardTargets.forEach((target, targetIndex) => {
           gsap.to(target, {
-            xPercent:
-              targetIndex === index
-                ? 0
-                : displacement / (targetIndex - index),
+            xPercent: targetIndex === index ? 0 : displacement / (targetIndex - index),
             duration: interactionDuration,
             ease,
             overwrite: "auto",
@@ -313,10 +297,7 @@ export function Demo() {
     <div className="grid h-full min-h-full place-items-center overflow-hidden bg-[#ffdbfd] px-4 py-16">
       <ReactiveCardStack>
         {cards.map((card) => (
-          <ReactiveCardStack.Card
-            className={card.color}
-            key={card.step}
-          >
+          <ReactiveCardStack.Card className={card.color} key={card.step}>
             <div className={styles.cardInner}>
               <header className={styles.cardHeader}>{card.step}</header>
               <div className={styles.imageWrap}>
