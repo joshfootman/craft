@@ -46,7 +46,24 @@ const cards = [
   },
 ] as const;
 
-type ReactiveCardStackProps = React.HTMLAttributes<HTMLDivElement>;
+type EntranceTrigger = "in-view" | "mount";
+
+type ReactiveCardStackProps = React.HTMLAttributes<HTMLDivElement> & {
+  activeScale?: number;
+  disabled?: boolean;
+  displacement?: number;
+  ease?: string;
+  entranceDuration?: number;
+  entranceStagger?: number;
+  entranceTrigger?: EntranceTrigger;
+  interactionDuration?: number;
+  onActiveIndexChange?: (index: number | null) => void;
+  seed?: number;
+};
+
+type ReactiveCardProps = React.ComponentPropsWithoutRef<"article"> & {
+  wrapperClassName?: string;
+};
 
 function createSeededRandom(seed: number) {
   let value = seed;
@@ -60,12 +77,46 @@ function createSeededRandom(seed: number) {
   };
 }
 
-function ReactiveCardStack({
+function ReactiveCard({
   children,
   className,
+  wrapperClassName,
+  ...props
+}: ReactiveCardProps) {
+  return (
+    <div
+      className={[styles.item, wrapperClassName].filter(Boolean).join(" ")}
+      data-reactive-card-item
+    >
+      <article
+        {...props}
+        className={[styles.card, className].filter(Boolean).join(" ")}
+        data-reactive-card-target
+      >
+        {children}
+      </article>
+    </div>
+  );
+}
+
+function ReactiveCardStackRoot({
+  activeScale = 1.075,
+  children,
+  className,
+  disabled = false,
+  displacement = 45,
+  ease = "elastic.out(1, 0.75)",
+  entranceDuration = 1.05,
+  entranceStagger = 0.088,
+  entranceTrigger = "in-view",
+  interactionDuration = 0.85,
+  onActiveIndexChange,
+  seed = 17,
   ...props
 }: ReactiveCardStackProps) {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
+  const onActiveIndexChangeRef = React.useRef(onActiveIndexChange);
+  onActiveIndexChangeRef.current = onActiveIndexChange;
 
   React.useLayoutEffect(() => {
     const root = rootRef.current;
@@ -79,40 +130,81 @@ function ReactiveCardStack({
       "[data-reactive-card-target]",
       root,
     );
-    const random = createSeededRandom(17);
+    if (disabled || items.length === 0) return;
+
+    const randomByIndex = items.map((_, index) =>
+      createSeededRandom(seed + index),
+    );
     const media = gsap.matchMedia();
 
-    const randomRestTransform = () => ({
-      xPercent: (random() - 0.5) * 10,
-      yPercent: (random() - 0.5) * 10,
-      rotation: (random() - 0.5) * 15,
-    });
+    const randomRestTransform = (index: number, rotationRange = 15) => {
+      const random = randomByIndex[index];
 
-    items.forEach((item) => {
-      gsap.set(item, randomRestTransform());
+      return {
+        xPercent: (random() - 0.5) * 10,
+        yPercent: (random() - 0.5) * 10,
+        rotation: (random() - 0.5) * rotationRange,
+      };
+    };
+
+    items.forEach((item, index) => {
+      gsap.set(item, randomRestTransform(index));
     });
 
     media.add(MOTION_QUERY, () => {
-      const entrance = gsap.from(items, {
-        rotation: (random() - 0.5) * 15,
-        yPercent: "+=150",
-        duration: 1.05,
-        ease: "elastic.out(1, 0.75)",
-        stagger: 0.088,
-      });
+      let entrance: gsap.core.Tween | null = null;
 
-      return () => entrance.kill();
+      const playEntrance = () => {
+        entrance = gsap.from(items, {
+          rotation: (randomByIndex[0]() - 0.5) * 15,
+          yPercent: "+=150",
+          duration: entranceDuration,
+          ease,
+          stagger: entranceStagger,
+        });
+      };
+
+      if (entranceTrigger === "mount") {
+        playEntrance();
+        return () => entrance?.kill();
+      }
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting) return;
+
+          observer.disconnect();
+          playEntrance();
+        },
+        { rootMargin: "0px 0px -15% 0px" },
+      );
+
+      observer.observe(root);
+
+      return () => {
+        observer.disconnect();
+        entrance?.kill();
+      };
     });
 
     media.add(INTERACTION_QUERY, () => {
       let activeIndex = -1;
+      let bounds = root.getBoundingClientRect();
+
+      const updateBounds = () => {
+        bounds = root.getBoundingClientRect();
+      };
+
+      const resizeObserver = new ResizeObserver(updateBounds);
+      resizeObserver.observe(root);
 
       const resetCard = (index: number) => {
         gsap.to(items[index], {
-          ...randomRestTransform(),
+          ...randomRestTransform(index, 20),
           scale: 1,
-          duration: 0.85,
-          ease: "elastic.out(1, 0.75)",
+          duration: interactionDuration,
+          ease,
+          overwrite: "auto",
         });
       };
 
@@ -121,24 +213,27 @@ function ReactiveCardStack({
           xPercent: 0,
           yPercent: 0,
           rotation: 0,
-          scale: 1.075,
-          duration: 0.85,
-          ease: "elastic.out(1, 0.75)",
+          scale: activeScale,
+          duration: interactionDuration,
+          ease,
+          overwrite: "auto",
         });
 
         cardTargets.forEach((target, targetIndex) => {
           gsap.to(target, {
             xPercent:
-              targetIndex === index ? 0 : 45 / (targetIndex - index),
-            duration: 0.85,
-            ease: "elastic.out(1, 0.75)",
+              targetIndex === index
+                ? 0
+                : displacement / (targetIndex - index),
+            duration: interactionDuration,
+            ease,
+            overwrite: "auto",
           });
         });
       };
 
       const handlePointerMove = (event: MouseEvent) => {
-        const rect = root.getBoundingClientRect();
-        const percentage = (event.clientX - rect.left) / rect.width;
+        const percentage = (event.clientX - bounds.left) / bounds.width;
         const nextIndex = Math.min(
           items.length - 1,
           Math.max(0, Math.ceil(percentage * items.length) - 1),
@@ -149,23 +244,29 @@ function ReactiveCardStack({
 
         activeIndex = nextIndex;
         activateCard(activeIndex);
+        onActiveIndexChangeRef.current?.(activeIndex);
       };
 
       const handlePointerLeave = () => {
         if (activeIndex >= 0) resetCard(activeIndex);
         activeIndex = -1;
+        onActiveIndexChangeRef.current?.(null);
 
         gsap.to(cardTargets, {
           xPercent: 0,
-          duration: 0.85,
-          ease: "elastic.out(1, 0.75)",
+          duration: interactionDuration,
+          ease,
+          overwrite: "auto",
         });
       };
 
+      root.addEventListener("mouseenter", updateBounds);
       root.addEventListener("mousemove", handlePointerMove);
       root.addEventListener("mouseleave", handlePointerLeave);
 
       return () => {
+        resizeObserver.disconnect();
+        root.removeEventListener("mouseenter", updateBounds);
         root.removeEventListener("mousemove", handlePointerMove);
         root.removeEventListener("mouseleave", handlePointerLeave);
       };
@@ -176,7 +277,17 @@ function ReactiveCardStack({
       gsap.killTweensOf([...items, ...cardTargets]);
       gsap.set([...items, ...cardTargets], { clearProps: "transform" });
     };
-  }, []);
+  }, [
+    activeScale,
+    disabled,
+    displacement,
+    ease,
+    entranceDuration,
+    entranceStagger,
+    entranceTrigger,
+    interactionDuration,
+    seed,
+  ]);
 
   return (
     <div
@@ -190,41 +301,39 @@ function ReactiveCardStack({
   );
 }
 
+const ReactiveCardStack = Object.assign(ReactiveCardStackRoot, {
+  Card: ReactiveCard,
+});
+
 export { ReactiveCardStack };
-export type { ReactiveCardStackProps };
+export type { ReactiveCardProps, ReactiveCardStackProps };
 
 export function Demo() {
   return (
     <div className="grid h-full min-h-full place-items-center overflow-hidden bg-[#ffdbfd] px-4 py-16">
       <ReactiveCardStack>
         {cards.map((card) => (
-          <div
-            className={styles.item}
-            data-reactive-card-item
+          <ReactiveCardStack.Card
+            className={card.color}
             key={card.step}
           >
-            <article
-              className={`${styles.card} ${card.color}`}
-              data-reactive-card-target
-            >
-              <div className={styles.cardInner}>
-                <header className={styles.cardHeader}>{card.step}</header>
-                <div className={styles.imageWrap}>
-                  <img
-                    alt={card.imageAlt}
-                    className={styles.image}
-                    height="588"
-                    src={card.image}
-                    width="720"
-                  />
-                </div>
-                <div className={styles.content}>
-                  <h2 className={styles.title}>{card.title}</h2>
-                  <p className={styles.copy}>{card.copy}</p>
-                </div>
+            <div className={styles.cardInner}>
+              <header className={styles.cardHeader}>{card.step}</header>
+              <div className={styles.imageWrap}>
+                <img
+                  alt={card.imageAlt}
+                  className={styles.image}
+                  height="588"
+                  src={card.image}
+                  width="720"
+                />
               </div>
-            </article>
-          </div>
+              <div className={styles.content}>
+                <h2 className={styles.title}>{card.title}</h2>
+                <p className={styles.copy}>{card.copy}</p>
+              </div>
+            </div>
+          </ReactiveCardStack.Card>
         ))}
       </ReactiveCardStack>
     </div>
