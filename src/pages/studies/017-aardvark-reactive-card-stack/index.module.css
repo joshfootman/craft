@@ -1,0 +1,155 @@
+@font-face {
+  font-family: "Champ";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../016-aardvark-momentum-hover-object/Champ-Black.woff2") format("woff2");
+}
+
+.stack {
+  --source-em: calc(100cqw / 120);
+
+  container-type: inline-size;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 120em;
+  padding-block: 4em;
+  font-size: var(--source-em);
+}
+
+.item {
+  height: 100%;
+}
+
+.card {
+  display: flex;
+  width: 25em;
+  height: 37.5em;
+  color: #000;
+  border-radius: 2em;
+  will-change: transform;
+}
+
+.cyan {
+  background: #1ce8ed;
+}
+
+.pink {
+  background: #fd48f2;
+}
+
+.yellow {
+  background: #ffd24a;
+}
+
+.periwinkle {
+  background: #9982de;
+}
+
+.cardInner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 2.5em 1.25em 1.5em;
+  gap: 1.25em;
+}
+
+.cardHeader {
+  flex: none;
+  text-align: center;
+  font-family: "Caveat", cursive;
+  font-size: 2.5em;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.imageWrap {
+  position: relative;
+  display: flex;
+  flex: 0 auto;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.image {
+  position: absolute;
+  flex: none;
+  width: 100%;
+  height: auto;
+}
+
+.content {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  padding-right: 1em;
+  gap: 0.75em;
+}
+
+.title {
+  margin: 0;
+  font-family: "Champ", Arial, sans-serif;
+  font-size: 2.5em;
+  font-weight: 700;
+  line-height: 0.88;
+}
+
+.copy {
+  margin: 0;
+  font-family: "Archivo", Arial, sans-serif;
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 991px) {
+  .stack {
+    --source-em: calc(100cqw / 52.125);
+
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 1em 0;
+    scroll-snap-type: x mandatory;
+  }
+
+  .item {
+    flex: none;
+    padding-inline: 0.75em;
+    scroll-snap-align: start;
+  }
+
+  .card {
+    width: 18.75em;
+    height: 28.125em;
+  }
+
+  .cardInner {
+    padding: 1.875em 0.9375em 1.125em;
+    gap: 0.9375em;
+  }
+
+  .content {
+    padding-right: 0.75em;
+    gap: 0.5625em;
+  }
+}
+
+@media (max-width: 767px) {
+  .stack {
+    --source-em: calc(100cqw / 34.375);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    will-change: auto;
+  }
+}
