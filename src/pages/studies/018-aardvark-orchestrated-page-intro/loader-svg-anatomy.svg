@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Anatomy of the loading SVG</title>
+  <desc id="desc">A winding SVG centerline becomes a full-screen purple wipe when given a very thick rounded stroke.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#111"/>
+    </marker>
+  </defs>
+  <rect width="1400" height="900" fill="#f6f4ee"/>
+  <text x="70" y="90" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#111">One path, two useful views</text>
+
+  <g transform="translate(70 150)">
+    <text x="260" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#111">1. Path centreline</text>
+    <rect x="0" y="35" width="520" height="600" rx="24" fill="#ffd24a" stroke="#111" stroke-width="3" stroke-dasharray="12 10"/>
+    <path d="M35 0C30 125 67 290 109 280c67-16 28-177 107-204 303-102-129 428 8 483 119 47 111-259 208-259 61 0 57 114 88 259 25 120 47 128 55 105" fill="none" stroke="#670a2e" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="35" cy="0" r="9" fill="#111"/>
+    <circle cx="475" cy="664" r="9" fill="#111"/>
+    <text x="55" y="25" font-family="Arial, sans-serif" font-size="21" fill="#111">start beyond frame</text>
+    <text x="292" y="695" font-family="Arial, sans-serif" font-size="21" fill="#111">endpoint beyond frame</text>
+  </g>
+
+  <path d="M625 455H765" fill="none" stroke="#111" stroke-width="5" marker-end="url(#arrow)"/>
+  <text x="695" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#111">add a huge</text>
+  <text x="695" y="455" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#111">rounded stroke</text>
+
+  <g transform="translate(810 150)">
+    <text x="260" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#111">2. Rendered loader</text>
+    <rect x="0" y="35" width="520" height="600" rx="24" fill="#ffd24a" stroke="#111" stroke-width="3" stroke-dasharray="12 10"/>
+    <clipPath id="viewport">
+      <rect x="0" y="35" width="520" height="600" rx="24"/>
+    </clipPath>
+    <g clip-path="url(#viewport)">
+      <path d="M35 0C30 125 67 290 109 280c67-16 28-177 107-204 303-102-129 428 8 483 119 47 111-259 208-259 61 0 57 114 88 259 25 120 47 128 55 105" fill="none" stroke="#3b308f" stroke-width="390" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M35 0C30 125 67 290 109 280c67-16 28-177 107-204 303-102-129 428 8 483 119 47 111-259 208-259 61 0 57 114 88 259 25 120 47 128 55 105" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="10 10" opacity=".8"/>
+    </g>
+    <text x="260" y="690" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#111">The stroke—not a filled shape—covers the viewport</text>
+  </g>
+
+  <g transform="translate(70 835)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#111">
+    <text x="0" y="0">fill="none"</text>
+    <text x="210" y="0">strokeWidth="70%"</text>
+    <text x="510" y="0">strokeLinecap="round"</text>
+    <text x="855" y="0">preserveAspectRatio="none"</text>
+  </g>
+</svg>

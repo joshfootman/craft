@@ -1,0 +1,88 @@
+.root {
+  --violet: #3b308f;
+  --pale-yellow: #faed8f;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 0 0 6rem 6rem;
+  background: #ffd24a;
+  isolation: isolate;
+}
+
+.background {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  will-change: clip-path;
+}
+
+.backgroundSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.backgroundSvg svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.loader {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  pointer-events: none;
+  place-items: center;
+}
+
+.loaderShape {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  color: var(--violet);
+}
+
+.loaderLogo {
+  position: relative;
+  width: 9.375rem;
+  height: 9.375rem;
+  filter: brightness(0) invert(1);
+  will-change: transform, opacity;
+}
+
+@media (max-width: 991px) {
+  .root {
+    border-radius: 0 0 2.5rem 2.5rem;
+  }
+
+  .loaderShape {
+    left: -65%;
+    width: 230%;
+  }
+
+  .loaderLogo {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .background,
+  .loaderLogo {
+    will-change: auto;
+  }
+
+  .loader {
+    display: none;
+  }
+}
