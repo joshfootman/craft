@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">How DrawSVG collapses the loader path</title>
+  <desc id="desc">Three frames show a fully visible thick path narrowing and then collapsing to its endpoint.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#111"/>
+    </marker>
+    <path id="loader-path" d="M28-5C24 96 53 225 86 218c52-12 22-138 84-159 237-79-101 334 6 377 93 37 87-202 163-202 47 0 44 89 68 202 20 94 37 100 43 82"/>
+  </defs>
+  <rect width="1500" height="900" fill="#f6f4ee"/>
+  <text x="70" y="90" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#111">The loader is erased toward the path endpoint</text>
+
+  <g transform="translate(60 170)">
+    <text x="205" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700">Start · drawSVG 0% 100%</text>
+    <rect x="0" y="35" width="410" height="520" rx="22" fill="#ffd24a"/>
+    <clipPath id="clip-a"><rect x="0" y="35" width="410" height="520" rx="22"/></clipPath>
+    <g clip-path="url(#clip-a)" transform="translate(0 35)">
+      <use href="#loader-path" fill="none" stroke="#3b308f" stroke-width="310" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="205" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="22">Full path + 70% stroke</text>
+  </g>
+
+  <path d="M495 440H555" fill="none" stroke="#111" stroke-width="5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(570 170)">
+    <text x="205" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700">95% · strokeWidth 8%</text>
+    <rect x="0" y="35" width="410" height="520" rx="22" fill="#ffd24a"/>
+    <clipPath id="clip-b"><rect x="0" y="35" width="410" height="520" rx="22"/></clipPath>
+    <g clip-path="url(#clip-b)" transform="translate(0 35)">
+      <use href="#loader-path" fill="none" stroke="#3b308f" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="205" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="22">Same path, much thinner</text>
+  </g>
+
+  <path d="M1005 440H1065" fill="none" stroke="#111" stroke-width="5" marker-end="url(#arrow)"/>
+
+  <g transform="translate(1080 170)">
+    <text x="170" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" font-weight="700">End · drawSVG 100% 100%</text>
+    <rect x="0" y="35" width="340" height="520" rx="22" fill="#ffd24a"/>
+    <circle cx="304" cy="518" r="12" fill="#3b308f"/>
+    <line x1="165" y1="390" x2="292" y2="505" stroke="#111" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="90" y="370" font-family="Arial, sans-serif" font-size="21">visible range has</text>
+    <text x="90" y="398" font-family="Arial, sans-serif" font-size="21">zero length here</text>
+    <text x="170" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="22">Start and end meet at 100%</text>
+  </g>
+
+  <g transform="translate(90 825)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="25" fill="#111">
+    <text x="0" y="0">drawSVG: "0% 100%"</text>
+    <text x="455" y="0">strokeWidth: "8%"</text>
+    <text x="890" y="0">drawSVG: "100% 100%"</text>
+  </g>
+</svg>
